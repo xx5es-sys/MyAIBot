@@ -12,9 +12,14 @@ from datetime import datetime, timezone
 import aiofiles
 from aiogram.types import Message
 from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 # import config
 
-bot = Bot(token='7830034663:AAHcEFO9dHuQRPdRx93sKwYt2TzWGBvev70')
+bot = Bot(
+    token='7830034663:AAHcEFO9dHuQRPdRx93sKwYt2TzWGBvev70',
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+)
 
 # Thread-safe lock for file operations
 _file_lock = asyncio.Lock()

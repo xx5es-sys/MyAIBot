@@ -1,5 +1,5 @@
 from aiogram import types, Bot, Dispatcher
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from aiogram import Bot, Dispatcher, types
 import aiohttp
 import datetime
 import string
@@ -10,9 +10,9 @@ from faker import Faker
 import re
 import ssl
 
-bot = Bot(token="7830034663:AAHcEFO9dHuQRPdRx93sKwYt2TzWGBvev70")
-dp = Dispatcher(bot)
-dp.middleware.setup(LoggingMiddleware())
+# bot and dp should be imported or passed if needed, but for now we fix imports
+# from config import API_TOKEN
+# bot = Bot(token=API_TOKEN)
 message: types.Message
 
 async def handle_admass_command(chat_id: int, user_id: int, cc: str, mes: str, ano: str, cvv: str):
