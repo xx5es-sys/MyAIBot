@@ -19,9 +19,7 @@ from config import API_TOKEN, Admin
 import config
 
 # ========= Config =========
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 # ========= Bot & Dispatcher =========
 
@@ -88,9 +86,7 @@ async def check_premium_access(message: types.Message) -> bool:
         f"{DOT_ANCHOR} ⛔ <b>Premium Access Required</b>\n"
         "\n"
         f"{DOT_ANCHOR} هذه البوابة متاحة فقط للمستخدمين Premium.\n"
-        f"{DOT_ANCHOR} استخدم /buy لشراء اشتراك وفتح جميع الميزات.\n"
-        "\n"
-        f"{BOT_LINK}",
+        f"{DOT_ANCHOR} استخدم /buy لشراء اشتراك وفتح جميع الميزات.",
         parse_mode="HTML"
     )
     return False
@@ -137,20 +133,16 @@ async def process_successful_payment(message: types.Message):
             await message.reply(
                 f"{DOT_ANCHOR} ✅ تم استلام الدفع بنجاح!\n"
                 f"{DOT_ANCHOR} ⭐ تم إضافة <b>{stars}</b> نجمة إلى رصيدك.\n"
-                f"{DOT_ANCHOR} استخدم /sup حتى تشوف رصيدك الجديد.\n"
-                "\n"
-                f"{BOT_LINK}",
+                f"{DOT_ANCHOR} استخدم /sup حتى تشوف رصيدك الجديد.",
                 parse_mode="HTML"
             )
         else:
-            await message.reply(f"{DOT_ANCHOR} ⚠️ صار خطأ بكمية النجوم، تواصل ويا الأدمن.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ⚠️ صار خطأ بكمية النجوم، تواصل ويا الأدمن.", parse_mode="HTML")
         return
 
     await message.reply(
         f"{DOT_ANCHOR} تم استلام دفع، لكن الـ payload غير معروف.\n"
-        f"{DOT_ANCHOR} تواصل ويا الأدمن للتأكد.\n"
-        "\n"
-        f"{BOT_LINK}",
+        f"{DOT_ANCHOR} تواصل ويا الأدمن للتأكد.",
         parse_mode="HTML"
     )
 
@@ -162,7 +154,7 @@ async def process_successful_payment(message: types.Message):
 async def send_invoice_stars(message: types.Message, stars: int):
     """إرسال فاتورة Telegram Stars"""
     if stars <= 0:
-        await message.reply(f"{DOT_ANCHOR} ❌ رقم غير صالح.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ رقم غير صالح.", parse_mode="HTML")
         return
 
     prices = [LabeledPrice(label=f"{stars} Stars", amount=stars)]
@@ -211,16 +203,14 @@ async def handle_buy_command(message: types.Message):
             "\n"
             f"{DOT_ANCHOR} اكتب عدد النجوم بهالشكل:\n"
             f"{DOT_ANCHOR} <code>/buy 10</code>\n"
-            f"{DOT_ANCHOR} كل 1 Star = 1 Credit ⭐\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} كل 1 Star = 1 Credit ⭐",
             parse_mode="HTML"
         )
         return
     try:
         stars = int(parts[1])
     except ValueError:
-        await message.reply(f"{DOT_ANCHOR} ❌ اكتب رقم صحيح، مثال: /buy 10\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ اكتب رقم صحيح، مثال: /buy 10", parse_mode="HTML")
         return
     await send_invoice_stars(message, stars)
 
@@ -231,7 +221,7 @@ async def handle_admin(message: types.Message, state: FSMContext):
     if message.from_user.id == Admin:
         await admin_commands(message, state)
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ You are not authorized to use this command.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ You are not authorized to use this command.", parse_mode="HTML")
 
 
 # =================================================================
@@ -420,7 +410,7 @@ async def handle_credits_user_id(message: types.Message, state: FSMContext):
 async def handle_unlimited_user_id(message: types.Message, state: FSMContext):
     await process_unlimited_user_id(message, state)
 
-@router.message(AdminActions.waiting_for_user_id_remove)
+@router.message(AdminActions.waiting_for_remove_user_id)
 async def handle_remove_user_id(message: types.Message, state: FSMContext):
     await process_remove_premium(message, state)
 

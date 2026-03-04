@@ -3,9 +3,7 @@ import aiohttp
 from config import auth_chats, API_TOKEN, can_use_b3
 
 # ========= Config =========
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 async def proxycheck(message: types.Message):
     proxy_status = "Dead ❌"
@@ -19,7 +17,7 @@ async def proxycheck(message: types.Message):
     try:
         if chat_id in auth_chats.get('private', []) or chat_id in auth_chats.get('group', []):
             if not await can_use_b3(chat_id, user_id):
-                await message.reply(f"{DOT_ANCHOR} Please wait 30 seconds before using /chk again.\n\n{BOT_LINK}", parse_mode="HTML")
+                await message.reply(f"{DOT_ANCHOR} Please wait 30 seconds before using /chk again.", parse_mode="HTML")
                 return
             await bot.send_chat_action(chat_id, "typing")
             response_message = await message.reply(f"{DOT_ANCHOR} wait a moment...", parse_mode="HTML")
@@ -49,8 +47,6 @@ async def proxycheck(message: types.Message):
     
 async def final(message_id_to_edit, chat_id, bot, proxy_status, proxy_encrypted):
     reply_message = (
-        f"{DOT_ANCHOR} <code>{proxy_encrypted}</code> {proxy_status}\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} <code>{proxy_encrypted}</code> {proxy_status}"
     )
     await bot.edit_message_text(text=reply_message, chat_id=chat_id, message_id=message_id_to_edit, parse_mode="HTML")  

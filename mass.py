@@ -24,9 +24,7 @@ from premium_util import can_start_mass, consume_for_single, refund_credit, upda
 
 # ========= Config =========
 BANNER_URL = "https://t.me/i5ese/347"
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 # Router خاص بالـ mass
 mass_router = Router()
@@ -130,32 +128,32 @@ async def get_bin_info(cc: str) -> dict:
 def kb_file_uploaded():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="AUTH", callback_data="mass:type:auth"),
-            InlineKeyboardButton(text="CHARGE", callback_data="mass:type:charge")
+            InlineKeyboardButton(text="AUTH", callback_data="mass:type:auth", style="success"),
+            InlineKeyboardButton(text="CHARGE", callback_data="mass:type:charge", style="success")
         ],
-        [InlineKeyboardButton(text="LOOKUP", callback_data="mass:type:lookup")],
-        [InlineKeyboardButton(text="EXIT", callback_data="mass:cancel")]
+        [InlineKeyboardButton(text="LOOKUP", callback_data="mass:type:lookup", style="success")],
+        [InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")]
     ])
 
 
 def kb_auth_gates():
-    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}")] for g in AUTH_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel")])
+    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in AUTH_GATES]
+    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_charge_gates():
-    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}")] for g in CHARGE_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel")])
+    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in CHARGE_GATES]
+    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_lookup_gates():
-    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}")] for g in LOOKUP_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel")])
+    buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in LOOKUP_GATES]
+    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
@@ -170,37 +168,37 @@ def create_stats_keyboard(user_id: int) -> InlineKeyboardMarkup:
     gate_type = session.get("gate_type", "auth")
 
     buttons = [
-        [InlineKeyboardButton(text=f"TOTAL: [ {total} ]", callback_data="mass_info")],
-        [InlineKeyboardButton(text=f"PROGRESS: [ {progress:.2f}% ]", callback_data="mass_info")],
+        [InlineKeyboardButton(text=f"TOTAL: [ {total} ]", callback_data="mass_info", style="primary")],
+        [InlineKeyboardButton(text=f"PROGRESS: [ {progress:.2f}% ]", callback_data="mass_info", style="primary")],
     ]
 
     if gate_type == "auth":
-        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"CCN: [ {session.get('ccn', 0)} ]", callback_data="mass_info")])
+        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
+        buttons.append([InlineKeyboardButton(text=f"CCN: [ {session.get('ccn', 0)} ]", callback_data="mass_info", style="danger")])
     elif gate_type == "charge":
-        buttons.append([InlineKeyboardButton(text=f"CHARGE: [ {session.get('charge', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info")])
+        buttons.append([InlineKeyboardButton(text=f"CHARGE: [ {session.get('charge', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
     elif gate_type == "lookup":
-        buttons.append([InlineKeyboardButton(text=f"OTP REQUEST: [ {session.get('otp', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"PASSED: [ {session.get('passed', 0)} ]", callback_data="mass_info")])
-        buttons.append([InlineKeyboardButton(text=f"REJECTED: [ {session.get('rejected', 0)} ]", callback_data="mass_info")])
+        buttons.append([InlineKeyboardButton(text=f"OTP REQUEST: [ {session.get('otp', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"PASSED: [ {session.get('passed', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"REJECTED: [ {session.get('rejected', 0)} ]", callback_data="mass_info", style="danger")])
 
-    buttons.append([InlineKeyboardButton(text=f"UNKNOWN: [ {session['unknown']} ]", callback_data="mass_info")])
+    buttons.append([InlineKeyboardButton(text=f"UNKNOWN: [ {session['unknown']} ]", callback_data="mass_info", style="danger")])
 
     if session["status"] == "processing":
         buttons.append([InlineKeyboardButton(text="STOP", callback_data="mass:stop")])
     elif session["status"] == "paused":
-        buttons.append([InlineKeyboardButton(text="RESUME", callback_data="mass:resume")])
-        buttons.append([InlineKeyboardButton(text="NEW FILE", callback_data="mass:new_file")])
+        buttons.append([InlineKeyboardButton(text="RESUME", callback_data="mass:resume", style="success")])
+        buttons.append([InlineKeyboardButton(text="NEW FILE", callback_data="mass:new_file", style="success")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_completed():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home")]
+        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
     ])
 
 
@@ -210,7 +208,7 @@ def kb_completed():
 
 def cap_file_uploaded(file_name: str, total_lines: int, valid_items: int) -> str:
     return (
-        f"{DOT_ANCHOR} {BRAND_ANCHOR} — File Uploaded\n"
+        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — File Uploaded\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
         "\n"
         f"{DOT_ANCHOR} Your file has been received successfully.\n"
@@ -220,9 +218,7 @@ def cap_file_uploaded(file_name: str, total_lines: int, valid_items: int) -> str
         f"{DOT_ANCHOR} Valid items ⌁  {valid_items}\n"
         "\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯  Select Gate Type To Continue  ↯\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} ↯  Select Gate Type To Continue  ↯"
     )
 
 
@@ -278,7 +274,6 @@ async def check_single_card_mock(card_data: str, user_id: int, bot: Bot) -> bool
     session["processed"] += 1
 
     # إرسال نتيجة البطاقة كـ Reply على رسالة الإحصائيات أو رسالة الملف
-    # هنا سنرسل رسالة جديدة كـ Reply لضمان الالتزام بقاعدة الـ Reply
     user_mention = f"<a href='tg://user?id={user_id}'>{session['user_name']}</a>"
     
     response_text = (
@@ -293,9 +288,7 @@ async def check_single_card_mock(card_data: str, user_id: int, bot: Bot) -> bool
         f"{DOT_ANCHOR} 𝐂𝐨𝐮𝐧𝐭𝐫𝐲 ⌁ {bin_info['country']} {bin_info['country_flag']}\n"
         "\n"
         f"{DOT_ANCHOR} 𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐛𝐲 ⇾ {user_mention}\n"
-        f"{DOT_ANCHOR} 𝐁𝐨𝐭 ➺ {BRAND_ANCHOR}\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} 𝐁𝐨𝐭 ➺ 𝖨𝖦𝖭𝖨𝖲𝖷"
     )
 
     try:
@@ -325,7 +318,7 @@ async def handle_document_upload(message: Message, state: FSMContext):
     # التحقق من الصلاحية
     can_start, msg = await can_start_mass(str(message.from_user.id))
     if not can_start:
-        await message.reply(f"{DOT_ANCHOR} {msg}\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} {msg}", parse_mode="HTML")
         return
 
     file_id = message.document.file_id
@@ -343,7 +336,7 @@ async def handle_document_upload(message: Message, state: FSMContext):
             valid_cards.append(line.strip())
 
     if not valid_cards:
-        await message.reply(f"{DOT_ANCHOR} No valid cards found in the file.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} No valid cards found in the file.", parse_mode="HTML")
         return
 
     # تخزين الجلسة
@@ -364,6 +357,7 @@ async def handle_document_upload(message: Message, state: FSMContext):
         "file_name": message.document.file_name
     }
 
+    # تم تغيير الـ reply_photo ليكون reply على الملف
     await message.reply_photo(
         photo=BANNER_URL,
         caption=cap_file_uploaded(message.document.file_name, len(lines), len(valid_cards)),
@@ -400,7 +394,7 @@ async def handle_mass_callbacks(call: CallbackQuery, state: FSMContext, bot: Bot
             kb = kb_lookup_gates()
         
         await call.message.edit_caption(
-            caption=f"{DOT_ANCHOR} {BRAND_ANCHOR} — Select Gateway\n\n{DOT_ANCHOR} Choose the gateway you want to use for mass checking.\n\n{BOT_LINK}",
+            caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Select Gateway\n\n{DOT_ANCHOR} Choose the gateway you want to use for mass checking.",
             reply_markup=kb,
             parse_mode="HTML"
         )
@@ -426,7 +420,7 @@ async def handle_mass_callbacks(call: CallbackQuery, state: FSMContext, bot: Bot
         session["message_id"] = call.message.message_id
         
         await call.message.edit_caption(
-            caption=f"{DOT_ANCHOR} {BRAND_ANCHOR} — Mass Checking Started\n\n{DOT_ANCHOR} Gateway: {gate_name}\n{DOT_ANCHOR} Status: Processing...\n\n{BOT_LINK}",
+            caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Mass Checking Started\n\n{DOT_ANCHOR} Gateway: {gate_name}\n{DOT_ANCHOR} Status: Processing...",
             reply_markup=create_stats_keyboard(user_id),
             parse_mode="HTML"
         )
@@ -491,7 +485,7 @@ async def run_mass_check(user_id: int, bot: Bot):
             await bot.edit_message_caption(
                 chat_id=session["chat_id"],
                 message_id=session["message_id"],
-                caption=f"{DOT_ANCHOR} {BRAND_ANCHOR} — Mass Check Completed ✅\n\n{DOT_ANCHOR} All cards have been processed.\n\n{BOT_LINK}",
+                caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Mass Check Completed ✅\n\n{DOT_ANCHOR} All cards have been processed.",
                 reply_markup=kb_completed(),
                 parse_mode="HTML"
             )

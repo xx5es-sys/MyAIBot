@@ -1,4 +1,5 @@
-from aiogram import Bot, Dispatcher, types
+from aiogram import types, Bot, Dispatcher
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 import aiohttp
 import datetime
 import string
@@ -12,8 +13,9 @@ import base64
 from bs4 import BeautifulSoup
 import asyncio
 
-# from config import API_TOKEN
-# bot = Bot(token=API_TOKEN)
+bot = Bot(token="7830034663:AAHcEFO9dHuQRPdRx93sKwYt2TzWGBvev70")
+dp = Dispatcher(bot)
+dp.middleware.setup(LoggingMiddleware())
 message: types.Message
 
 async def handle_aum_command(chat_id: int, user_id: int, cc: str, mes: str, ano: str, cvv: str):

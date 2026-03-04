@@ -3,7 +3,7 @@ import asyncio
 import re
 import io
 from aiogram import Bot, types
-from aiogram.types import BufferedInputFile
+from aiogram.types import InputFile
 from config import API_TOKEN
 
 bot = Bot(token="8317431246:AAFfUUDoocr273qTY0v4r8i-giy7fNmAoug")
@@ -63,7 +63,7 @@ async def handle_scrape_command(message: types.Message):
             filename = f"{len(cards_set)}x{channel_name}.txt"
             channel_link = f"https://t.me/{channel.username}" if channel.username else f"https://t.me/{channel_name}"
             final_message = f"<b>CC Scrapped Successful ✅</b>\n━━━━━━━━━━━━━━━━\n<b>Source:</b> <a href='{channel_link}'>{channel_name}</a>\n<b>Amount:</b> <code>{len(cards_set)}</code>\n<b>Duplicates Removed:</b> <code>{duplicates_removed}</code>\n━━━━━━━━━━━━━━━━\n<b>CC Scrapper By:</b> <a href='https://t.me/thba7cccbot'>𝐓𝐡𝐁𝐚𝟕 𝐜𝐡𝐞𝐜𝐤𝐞𝐫</a>"
-            await bot.send_document(chat_id, BufferedInputFile(file.getvalue().encode(), filename=filename), reply_to_message_id=message.message_id, caption=final_message, parse_mode='HTML')
+            await bot.send_document(chat_id, InputFile(file, filename=filename), reply_to_message_id=message.message_id, caption=final_message, parse_mode='HTML')
     else:
         await process_message.edit_text("No valid cards found.")
 

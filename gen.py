@@ -8,9 +8,7 @@ from aiogram.types import BufferedInputFile
 from message_handler import is_premium
 
 # ========= Config =========
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 def calculate_luhn_checksum(digits):
     sum_digits = sum(int(d) if (i % 2 == 0) else int(d)*2 if int(d)*2 < 10 else int(d)*2 - 9
@@ -38,7 +36,7 @@ async def generate_card(message: types.Message):
 
     # Note: can_use_b3 logic is kept as per original project
     if not await config.can_use_b3(message.chat.id, user_id):
-        await message.reply(f"{DOT_ANCHOR} You do not have permission to use this command.\n\n{BOT_LINK}", parse_mode='HTML')
+        await message.reply(f"{DOT_ANCHOR} You do not have permission to use this command.", parse_mode='HTML')
         return
 
     # /gen bin [mes/ano] count
@@ -46,7 +44,7 @@ async def generate_card(message: types.Message):
     parts = text.split()
     
     if len(parts) < 2:
-        await message.reply(f"{DOT_ANCHOR} Invalid format. Use <code>/gen bin</code> or <code>/gen bin count</code>\n\n{BOT_LINK}", parse_mode='HTML')
+        await message.reply(f"{DOT_ANCHOR} Invalid format. Use <code>/gen bin</code> or <code>/gen bin count</code>", parse_mode='HTML')
         return
 
     bin_number = parts[1]
@@ -81,9 +79,7 @@ async def generate_card(message: types.Message):
         f"{DOT_ANCHOR} ⊗ 𝐀𝐦𝐨𝐮𝐧𝐭 : <code>{requested_count}</code>\n"
         "\n"
         f"{DOT_ANCHOR} ⊗ 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐞𝐝 𝐁𝐲 ➺ {user_mention} [<code><b>{user_status}</b></code>]\n"
-        f"{DOT_ANCHOR} ⊗ 𝐁𝐨𝐭 ➺ {BRAND_ANCHOR}\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} ⊗ 𝐁𝐨ت ➺ 𝖨𝖦𝖭𝖨𝖲𝖷"
     )
 
     await message.reply_document(document=document, caption=response_message, parse_mode='HTML')

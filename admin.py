@@ -13,9 +13,7 @@ import premium_util
 admin_router = Router()
 
 # ========= Config =========
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 # ===========================
 # Premium JSON File Handling
@@ -102,9 +100,9 @@ async def admin_commands(message: types.Message, state: FSMContext):
             [InlineKeyboardButton(text="View Premium Users", callback_data="view_premium")],
             [InlineKeyboardButton(text="Remove Premium User", callback_data="remove_premium")],
         ])
-        await message.reply(f"{DOT_ANCHOR} <b>Admin Menu:</b>\n\n{BOT_LINK}", reply_markup=keyboard, parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} <b>Admin Menu:</b>", reply_markup=keyboard, parse_mode="HTML")
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ You are not authorized to access this command.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ You are not authorized to access this command.", parse_mode="HTML")
         await state.clear()
 
 
@@ -114,7 +112,7 @@ async def admin_commands(message: types.Message, state: FSMContext):
 
 @admin_router.callback_query(F.data == "add_premium")
 async def process_add_premium(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text(f"{DOT_ANCHOR} Please send the subscription duration in number of minutes or days or hours.\n\n{BOT_LINK}", parse_mode="HTML")
+    await call.message.edit_text(f"{DOT_ANCHOR} Please send the subscription duration in number of minutes or days or hours.", parse_mode="HTML")
     await call.answer()
     await state.set_state(AdminActions.waiting_for_duration)
 
@@ -132,11 +130,11 @@ async def process_duration(message: types.Message, state: FSMContext):
         elif "d" in unit or "day" in unit:
             total_seconds = duration * 86400
         await state.update_data(duration=total_seconds, unit=unit)
-        await message.reply(f"{DOT_ANCHOR} Enter the user ID to add to premium.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} Enter the user ID to add to premium.", parse_mode="HTML")
         await state.set_state(AdminActions.waiting_for_user_id)
     else:
         await message.reply(
-            f"{DOT_ANCHOR} ❌ Invalid format. Please enter the duration as '(number) minutes', '(number) hours', or '(number) days'.\n\n{BOT_LINK}",
+            f"{DOT_ANCHOR} ❌ Invalid format. Please enter the duration as '(number) minutes', '(number) hours', or '(number) days'.",
             parse_mode="HTML"
         )
 
@@ -150,7 +148,7 @@ async def add_premium_user(message: types.Message, state: FSMContext):
             user = await bot.get_chat(user_id)
             username = user.username or "No username"
         except Exception:
-            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.", parse_mode="HTML")
             return
 
         data_state = await state.get_data()
@@ -189,9 +187,7 @@ async def add_premium_user(message: types.Message, state: FSMContext):
         await message.reply(
             f"{DOT_ANCHOR} User <b>@{username}</b> added successfully to <b>premium</b>.\n"
             f"{DOT_ANCHOR} Added on: <b>{formatted_now}</b>\n"
-            f"{DOT_ANCHOR} Subscription will expire on: <b>{formatted_expires_at}</b>\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} Subscription will expire on: <b>{formatted_expires_at}</b>",
             parse_mode="HTML",
         )
 
@@ -200,9 +196,7 @@ async def add_premium_user(message: types.Message, state: FSMContext):
                 user_id,
                 f"{DOT_ANCHOR} <b>Congratulations</b> 🥳 <b>@{username}</b>, you are now a <b>premium</b> user!\n"
                 f"{DOT_ANCHOR} Valid until: <b>{formatted_expires_at}</b>\n"
-                f"{DOT_ANCHOR} 💡 <b>Remember,</b> you can always check your <b>status</b> using /sup\n"
-                "\n"
-                f"{BOT_LINK}",
+                f"{DOT_ANCHOR} 💡 <b>Remember,</b> you can always check your <b>status</b> using /sup",
                 parse_mode="HTML",
                 reply_to_message_id=None # We don't have a message to reply to here
             )
@@ -211,7 +205,7 @@ async def add_premium_user(message: types.Message, state: FSMContext):
 
         await state.clear()
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ Hmm... That doesn't look right. Please send a numeric user ID.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ Hmm... That doesn't look right. Please send a numeric user ID.", parse_mode="HTML")
 
 
 # ===========================
@@ -220,7 +214,7 @@ async def add_premium_user(message: types.Message, state: FSMContext):
 
 @admin_router.callback_query(F.data == "add_credits")
 async def process_add_credits(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text(f"{DOT_ANCHOR} Enter the amount of credits to add:\n\n{BOT_LINK}", parse_mode="HTML")
+    await call.message.edit_text(f"{DOT_ANCHOR} Enter the amount of credits to add:", parse_mode="HTML")
     await call.answer()
     await state.set_state(AdminActions.waiting_for_credits_amount)
 
@@ -231,10 +225,10 @@ async def process_credits_amount(message: types.Message, state: FSMContext):
     if amount_text.isdigit():
         amount = int(amount_text)
         await state.update_data(credits_amount=amount)
-        await message.reply(f"{DOT_ANCHOR} Enter the user ID to add credits to:\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} Enter the user ID to add credits to:", parse_mode="HTML")
         await state.set_state(AdminActions.waiting_for_credits_user_id)
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ Invalid amount. Please enter a numeric value.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ Invalid amount. Please enter a numeric value.", parse_mode="HTML")
 
 
 @admin_router.message(AdminActions.waiting_for_credits_user_id)
@@ -246,7 +240,7 @@ async def process_credits_user_id(message: types.Message, state: FSMContext):
             user = await bot.get_chat(user_id)
             username = user.username or "No username"
         except Exception:
-            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.", parse_mode="HTML")
             return
 
         data_state = await state.get_data()
@@ -276,9 +270,7 @@ async def process_credits_user_id(message: types.Message, state: FSMContext):
         await save_premium_data(data)
 
         await message.reply(
-            f"{DOT_ANCHOR} ✅ Added <b>{amount}</b> credits to user <b>@{username}</b> (ID: {user_id})\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} ✅ Added <b>{amount}</b> credits to user <b>@{username}</b> (ID: {user_id})",
             parse_mode="HTML",
         )
 
@@ -286,9 +278,7 @@ async def process_credits_user_id(message: types.Message, state: FSMContext):
             await bot.send_message(
                 user_id,
                 f"{DOT_ANCHOR} 🎉 You have received <b>{amount}</b> credits!\n"
-                f"{DOT_ANCHOR} Check your balance with /sup\n"
-                "\n"
-                f"{BOT_LINK}",
+                f"{DOT_ANCHOR} Check your balance with /sup",
                 parse_mode="HTML",
             )
         except Exception:
@@ -296,12 +286,12 @@ async def process_credits_user_id(message: types.Message, state: FSMContext):
 
         await state.clear()
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.", parse_mode="HTML")
 
 
 @admin_router.callback_query(F.data == "set_unlimited")
 async def process_set_unlimited(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text(f"{DOT_ANCHOR} Enter the user ID to set as unlimited:\n\n{BOT_LINK}", parse_mode="HTML")
+    await call.message.edit_text(f"{DOT_ANCHOR} Enter the user ID to set as unlimited:", parse_mode="HTML")
     await call.answer()
     await state.set_state(AdminActions.waiting_for_unlimited_user_id)
 
@@ -315,7 +305,7 @@ async def process_unlimited_user_id(message: types.Message, state: FSMContext):
             user = await bot.get_chat(user_id)
             username = user.username or "No username"
         except Exception:
-            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ❌ No chat found with this user.", parse_mode="HTML")
             return
 
         data = await load_premium_data()
@@ -342,9 +332,7 @@ async def process_unlimited_user_id(message: types.Message, state: FSMContext):
         await save_premium_data(data)
 
         await message.reply(
-            f"{DOT_ANCHOR} ✅ User <b>@{username}</b> is now <b>unlimited</b>.\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} ✅ User <b>@{username}</b> is now <b>unlimited</b>.",
             parse_mode="HTML",
         )
 
@@ -352,9 +340,7 @@ async def process_unlimited_user_id(message: types.Message, state: FSMContext):
             await bot.send_message(
                 user_id,
                 f"{DOT_ANCHOR} ♾️ You now have <b>unlimited</b> access!\n"
-                f"{DOT_ANCHOR} Check your status with /sup\n"
-                "\n"
-                f"{BOT_LINK}",
+                f"{DOT_ANCHOR} Check your status with /sup",
                 parse_mode="HTML",
             )
         except Exception:
@@ -362,7 +348,7 @@ async def process_unlimited_user_id(message: types.Message, state: FSMContext):
 
         await state.clear()
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.", parse_mode="HTML")
 
 
 @admin_router.callback_query(F.data == "view_premium")
@@ -370,21 +356,20 @@ async def view_premium_users(call: CallbackQuery, state: FSMContext):
     data = await load_premium_data()
     users = data.get("premium_users", [])
     if not users:
-        await call.message.edit_text(f"{DOT_ANCHOR} No premium users found.\n\n{BOT_LINK}", parse_mode="HTML")
+        await call.message.edit_text(f"{DOT_ANCHOR} No premium users found.", parse_mode="HTML")
         return
 
     text = f"{DOT_ANCHOR} <b>Premium Users:</b>\n\n"
     for u in users:
         text += f"{DOT_ANCHOR} @{u.get('username', 'N/A')} (ID: {u.get('user_id')})\n"
     
-    text += f"\n{BOT_LINK}"
     await call.message.edit_text(text, parse_mode="HTML")
     await call.answer()
 
 
 @admin_router.callback_query(F.data == "remove_premium")
 async def remove_premium_user(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text(f"{DOT_ANCHOR} Enter the user ID to remove from premium:\n\n{BOT_LINK}", parse_mode="HTML")
+    await call.message.edit_text(f"{DOT_ANCHOR} Enter the user ID to remove from premium:", parse_mode="HTML")
     await call.answer()
     await state.set_state(AdminActions.waiting_for_user_id_remove)
 
@@ -398,12 +383,12 @@ async def process_remove_premium(message: types.Message, state: FSMContext):
         new_users = [u for u in users if str(u.get("user_id")) != user_id]
         
         if len(users) == len(new_users):
-            await message.reply(f"{DOT_ANCHOR} ❌ User not found in premium list.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ❌ User not found in premium list.", parse_mode="HTML")
         else:
             data["premium_users"] = new_users
             await save_premium_data(data)
-            await message.reply(f"{DOT_ANCHOR} ✅ User removed from premium successfully.\n\n{BOT_LINK}", parse_mode="HTML")
+            await message.reply(f"{DOT_ANCHOR} ✅ User removed from premium successfully.", parse_mode="HTML")
         
         await state.clear()
     else:
-        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ❌ Please send a numeric user ID.", parse_mode="HTML")

@@ -14,9 +14,7 @@ from config import Admin, PAYMENT_PROVIDER_TOKEN
 
 # ========= Config =========
 BANNER_URL = "https://t.me/i5ese/347"
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 import premium_util
 import asyncio
@@ -120,10 +118,8 @@ def cap_start(first_name: str) -> str:
     return (
         f"{DOT_ANCHOR} Hello  𓏺 {first_name}\n"
         "\n"
-        f"{DOT_ANCHOR} I'm {BRAND_ANCHOR}↯. A Multi Functional Bot With Many Tools and Checker Gateways.\n"
-        f"{DOT_ANCHOR} Press /cmds To Know My Features\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} I'm 𝖨𝖦𝖭𝖨𝖲𝖷↯. A Multi Functional Bot With Many Tools and Checker Gateways.\n"
+        f"{DOT_ANCHOR} Press /cmds To Know My Features"
     )
 
 
@@ -131,7 +127,7 @@ def cap_my_profile(u: types.User, sub: dict) -> str:
     uname = f"@{u.username}" if u.username else "—"
     profile_link = f'<a href="tg://user?id={u.id}">Click Here</a>'
     return (
-        f"{DOT_ANCHOR} み {BRAND_ANCHOR} — User Information\n"
+        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 — User Information\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
         f"{DOT_ANCHOR} UID        : {u.id}\n"
         f"{DOT_ANCHOR} Name       : {u.first_name}\n"
@@ -147,164 +143,146 @@ def cap_my_profile(u: types.User, sub: dict) -> str:
         "\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
         f"{DOT_ANCHOR} /Buy VIP Subscription to Unlock All Features.\n"
-        f"{DOT_ANCHOR} DeveBy ↝O.T\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} DeveBy ↝O.T"
     )
 
 
 def cap_about() -> str:
     return (
-        f"{DOT_ANCHOR} み  {BRAND_ANCHOR}↯ BreakDown !\n"
+        f"{DOT_ANCHOR} み  𝖨𝖦𝖭𝖨𝖲𝖷↯ BreakDown !\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} Language ⌁ Python x Aiogram\n"
-        f"{DOT_ANCHOR} Version    ⌁ v1.1\n"
-        f"{DOT_ANCHOR} Hosting      ⌁ VPS\n"
-        f"{DOT_ANCHOR} Developer     ⌁ O.T Dev\n"
-        f"{DOT_ANCHOR} Updated       ⌁ 2026\n"
+        f"{DOT_ANCHOR} Language {DOT_ANCHOR} Python x Aiogram\n"
+        f"{DOT_ANCHOR} Version    {DOT_ANCHOR} v1.1\n"
+        f"{DOT_ANCHOR} Hosting      {DOT_ANCHOR} VPS\n"
+        f"{DOT_ANCHOR} Developer     {DOT_ANCHOR} O.T Dev\n"
+        f"{DOT_ANCHOR} Updated       {DOT_ANCHOR} 2026\n"
         "\n"
         f"{DOT_ANCHOR} Community\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
         f"{DOT_ANCHOR} Official Channel\n"
-        f"{DOT_ANCHOR} Support Chat\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} Support Chat"
     )
 
 
 def cap_cmds() -> str:
     return (
-        f"{DOT_ANCHOR} {BRAND_ANCHOR} — Commands Overview\n"
+        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Commands Overview\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
         f"{DOT_ANCHOR} Gateways\n"
-        f"{DOT_ANCHOR} • Auth\n"
-        f"{DOT_ANCHOR} • Charge\n"
-        f"{DOT_ANCHOR} • LookUp\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Auth\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Charge\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} LookUp\n"
         "\n"
         f"{DOT_ANCHOR} Tools\n"
-        f"{DOT_ANCHOR} • CC Generator\n"
-        f"{DOT_ANCHOR} • CC Scraper\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Generator\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Scraper\n"
         "\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯"
     )
 
 
 def cap_gateways_overview() -> str:
     return (
-        f"{DOT_ANCHOR} Overview Section of {BRAND_ANCHOR}\n"
+        f"{DOT_ANCHOR} Overview Section of 𝖨𝖦𝖭𝖨𝖲𝖷\n"
         "\n"
-        f"{DOT_ANCHOR} • Auth     ⌁  3 Gates\n"
-        f"{DOT_ANCHOR} • Charge   ⌁  4 Gates\n"
-        f"{DOT_ANCHOR} • LookUp   ⌁  4 Gates\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Auth     ⌁  3 Gates\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Charge   ⌁  4 Gates\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} LookUp   ⌁  4 Gates\n"
         "\n"
-        f"{DOT_ANCHOR} ↯  Check Below to View Available Gates.\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} ↯  Check Below to View Available Gates."
     )
 
 
 def cap_auth_gates() -> str:
     return (
-        f"{DOT_ANCHOR} み {BRAND_ANCHOR} AUTH\n"
+        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 AUTH\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Stripe Auth  ( /au )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Stripe AUTH\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Stripe AUTH\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Braintree Auth  ( /ba )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Braintree Auth\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree Auth\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Square Auth  ( /sq )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Square Auth\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Square Auth"
     )
 
 
 def cap_charge_gates() -> str:
     return (
-        f"{DOT_ANCHOR} み {BRAND_ANCHOR} CHARGE\n"
+        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 CHARGE\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » PayPal Cvv  ( /Pv )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  PayPal\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  PayPal\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Square charge  ( /Sh )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Square charge\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Square charge\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Azathoth  ( /az )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Authorize.Net [AIM]\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Authorize.Net [AIM]\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Stripe Charge  ( /sc )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Stripe v1\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Stripe v1"
     )
 
 
 def cap_lookup_gates() -> str:
     return (
-        f"{DOT_ANCHOR} み {BRAND_ANCHOR} LookUp\n"
+        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 LookUp\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Verify Secure  ( /vbv )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Braintree 3DS\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree 3DS\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Global 3DS  ( /G3 )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Global payment\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Global payment\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Global Passed  ( /GP )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Global payment\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Global payment\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name » Verify Passed  ( /BP )\n"
-        f"{DOT_ANCHOR} • Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} • Gateway  ⌁  Braintree Passed\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree Passed"
     )
 
 
 def cap_tools() -> str:
     return (
-        f"{DOT_ANCHOR} {BRAND_ANCHOR} — Tools Overview\n"
+        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Tools Overview\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} • CC Generator\n"
-        f"{DOT_ANCHOR} • CC Scraper\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Generator\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Scraper\n"
         "\n"
         f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯"
     )
 
 
 def cap_cc_generator() -> str:
     return (
-        f"{DOT_ANCHOR} あ {BRAND_ANCHOR} Binning Tools あ\n"
+        f"{DOT_ANCHOR} あ 𝖨𝖦𝖭𝖨𝖲𝖷 Binning Tools あ\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name  Bin Checker\n"
-        f"{DOT_ANCHOR} • Format  » /bin bin_number\n"
-        f"{DOT_ANCHOR} • Status  »  ACTIVE  ✅\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /bin bin_number\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name  Card Generator\n"
-        f"{DOT_ANCHOR} • Format  » /gen bin\n"
-        f"{DOT_ANCHOR} • Status  »  ACTIVE  ✅\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /gen bin\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅\n"
         "\n"
         f"{DOT_ANCHOR} ↯ Name  Card Generator\n"
-        f"{DOT_ANCHOR} • Format  » /mgen bin [Number card]\n"
-        f"{DOT_ANCHOR} • Status  »  ACTIVE  ✅\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /mgen bin [Number card]\n"
+        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅"
     )
 
 
@@ -312,99 +290,66 @@ def cap_cc_scraper() -> str:
     return (
         f"{DOT_ANCHOR} COMING SOON\n"
         "\n"
-        f"{BOT_LINK}"
     )
 
 
-# ========= Keyboards (aiogram 3.x style) =========
+# ========= Keyboards =========
 
 def kb_start():
     return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways")],
+        [InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools")],
         [
-            InlineKeyboardButton(text="MY PROFILE", callback_data="st:profile"),
-            InlineKeyboardButton(text="ABOUT", callback_data="st:about")
-        ],
-        [InlineKeyboardButton(text="EXIT", callback_data="st:exit")]
+            InlineKeyboardButton(text="MY PROFILE", callback_data="cmds:profile"),
+            InlineKeyboardButton(text="ABOUT", callback_data="cmds:about")
+        ]
     ])
 
 
-def kb_profile_from_start():
+def kb_cmds_main():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="st:home")]
+        [InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways")],
+        [InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools")],
+        [InlineKeyboardButton(text="BACK", callback_data="st:home", style="primary")]
     ])
 
 
-def kb_about_from_start():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="st:home")]
-    ])
-
-
-def kb_cmds():
+def kb_gateways_overview():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways"),
-            InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools")
+            InlineKeyboardButton(text="AUTH", callback_data="gw:auth", style="success"),
+            InlineKeyboardButton(text="CHARGE", callback_data="gw:charge", style="success"),
+            InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup", style="success")
         ],
-        [InlineKeyboardButton(text="MY PROFILE", callback_data="cmds:profile")],
-        [InlineKeyboardButton(text="EXIT", callback_data="cmds:exit")]
+        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_gateways():
+def kb_back_to_gw():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="BACK", callback_data="cmds:gateways", style="primary")]
+    ])
+
+
+def kb_tools_overview():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="AUTH", callback_data="gw:auth"),
-            InlineKeyboardButton(text="CHARGE", callback_data="gw:charge")
+            InlineKeyboardButton(text="CC GENERATOR", callback_data="tools:gen", style="success"),
+            InlineKeyboardButton(text="CC SCRAPER", callback_data="tools:scrape", style="success")
         ],
-        [InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup")],
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home")]
+        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_auth_gates():
+def kb_back_to_tools():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:gateways")]
+        [InlineKeyboardButton(text="BACK", callback_data="cmds:tools", style="primary")]
     ])
 
 
-def kb_charge_gates():
+def kb_back_to_home():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:gateways")]
-    ])
-
-
-def kb_lookup_gates():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:gateways")]
-    ])
-
-
-def kb_tools():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [
-            InlineKeyboardButton(text="CC GENERATOR", callback_data="tools:gen"),
-            InlineKeyboardButton(text="CC SCRAPER", callback_data="tools:scrape")
-        ],
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home")]
-    ])
-
-
-def kb_tool_gen():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:tools")]
-    ])
-
-
-def kb_tool_scrape():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:tools")]
-    ])
-
-
-def kb_profile_from_cmds():
-    return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home")]
+        [InlineKeyboardButton(text="BACK", callback_data="st:home", style="primary")]
     ])
 
 
@@ -423,7 +368,7 @@ async def cmds_entry(message: types.Message):
     await message.reply_photo(
         photo=BANNER_URL,
         caption=cap_cmds(),
-        reply_markup=kb_cmds(),
+        reply_markup=kb_cmds_main(),
         parse_mode="HTML"
     )
 
@@ -437,68 +382,44 @@ async def sup_command(message: types.Message):
     )
 
 
-# ========= Callback Handlers =========
+# ========= Callbacks =========
 
 async def start_callbacks(call: types.CallbackQuery):
-    data = call.data.split(":")[-1]
-
-    if data == "home":
+    if call.data == "st:home":
         await call.message.edit_caption(
             caption=cap_start(call.from_user.first_name),
             reply_markup=kb_start(),
             parse_mode="HTML"
         )
-    elif data == "profile":
-        sub = await _sub_info(call.from_user.id)
-        await call.message.edit_caption(
-            caption=cap_my_profile(call.from_user, sub),
-            reply_markup=kb_profile_from_start(),
-            parse_mode="HTML"
-        )
-    elif data == "about":
-        await call.message.edit_caption(
-            caption=cap_about(),
-            reply_markup=kb_about_from_start(),
-            parse_mode="HTML"
-        )
-    elif data == "exit":
-        with contextlib.suppress(Exception):
-            await call.message.delete()
     await call.answer()
 
 
 async def cmds_callbacks(call: types.CallbackQuery):
-    data = call.data.split(":")[-1]
-
-    if data == "home":
-        await call.message.edit_caption(caption=cap_cmds(), reply_markup=kb_cmds(), parse_mode="HTML")
-    elif data == "gateways":
-        await call.message.edit_caption(caption=cap_gateways_overview(), reply_markup=kb_gateways(), parse_mode="HTML")
-    elif data == "tools":
-        await call.message.edit_caption(caption=cap_tools(), reply_markup=kb_tools(), parse_mode="HTML")
-    elif data == "profile":
+    data = call.data
+    if data == "cmds:home":
+        await call.message.edit_caption(caption=cap_cmds(), reply_markup=kb_cmds_main(), parse_mode="HTML")
+    elif data == "cmds:gateways":
+        await call.message.edit_caption(caption=cap_gateways_overview(), reply_markup=kb_gateways_overview(), parse_mode="HTML")
+    elif data == "cmds:tools":
+        await call.message.edit_caption(caption=cap_tools(), reply_markup=kb_tools_overview(), parse_mode="HTML")
+    elif data == "cmds:profile":
         sub = await _sub_info(call.from_user.id)
-        await call.message.edit_caption(
-            caption=cap_my_profile(call.from_user, sub),
-            reply_markup=kb_profile_from_cmds(),
-            parse_mode="HTML"
-        )
-    elif data == "exit":
-        with contextlib.suppress(Exception):
-            await call.message.delete()
+        await call.message.edit_caption(caption=cap_my_profile(call.from_user, sub), reply_markup=kb_back_to_home(), parse_mode="HTML")
+    elif data == "cmds:about":
+        await call.message.edit_caption(caption=cap_about(), reply_markup=kb_back_to_home(), parse_mode="HTML")
 
-    # Gateways Sub-Menus
-    elif data == "auth":
-        await call.message.edit_caption(caption=cap_auth_gates(), reply_markup=kb_auth_gates(), parse_mode="HTML")
-    elif data == "charge":
-        await call.message.edit_caption(caption=cap_charge_gates(), reply_markup=kb_charge_gates(), parse_mode="HTML")
-    elif data == "lookup":
-        await call.message.edit_caption(caption=cap_lookup_gates(), reply_markup=kb_lookup_gates(), parse_mode="HTML")
+    # Gateways
+    elif data == "gw:auth":
+        await call.message.edit_caption(caption=cap_auth_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
+    elif data == "gw:charge":
+        await call.message.edit_caption(caption=cap_charge_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
+    elif data == "gw:lookup":
+        await call.message.edit_caption(caption=cap_lookup_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
 
-    # Tools Sub-Menus
-    elif data == "gen":
-        await call.message.edit_caption(caption=cap_cc_generator(), reply_markup=kb_tool_gen(), parse_mode="HTML")
-    elif data == "scrape":
-        await call.message.edit_caption(caption=cap_cc_scraper(), reply_markup=kb_tool_scrape(), parse_mode="HTML")
+    # Tools
+    elif data == "tools:gen":
+        await call.message.edit_caption(caption=cap_cc_generator(), reply_markup=kb_back_to_tools(), parse_mode="HTML")
+    elif data == "tools:scrape":
+        await call.message.edit_caption(caption=cap_cc_scraper(), reply_markup=kb_back_to_tools(), parse_mode="HTML")
 
     await call.answer()

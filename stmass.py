@@ -1,5 +1,5 @@
 from aiogram import types, Bot, Dispatcher
-from aiogram import Bot, Dispatcher, types
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 import aiohttp
 import datetime
 import config
@@ -15,8 +15,9 @@ from acc import get_random_pair
 
 
 
-# from config import API_TOKEN
-# bot = Bot(token=API_TOKEN)
+bot = Bot(token="8317431246:AAFfUUDoocr273qTY0v4r8i-giy7fNmAoug")
+dp = Dispatcher(bot)
+dp.middleware.setup(LoggingMiddleware())
 fake = Faker()
 
 async def handle_stmass_command(chat_id: int, user_id: int, cc: str, mes: str, ano: str, cvv: str):

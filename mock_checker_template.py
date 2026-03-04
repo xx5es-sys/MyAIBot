@@ -16,9 +16,7 @@ import premium_util
 from premium_util import refund_credit, update_last_chk
 
 # ========= Config =========
-BRAND_ANCHOR = '<a href="https://t.me/lgnisXBot">𝖨𝖦𝖭𝖨𝖲𝖷</a>'
-DOT_ANCHOR = '<a href="https://t.me/lgnisXBot">•</a>'
-BOT_LINK = f"{DOT_ANCHOR} https://t.me/lgnisXBot"
+DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 # ===========================
 # النتائج الوهمية المحتملة
@@ -127,9 +125,7 @@ async def final_mock(
         "\n"
         f"{DOT_ANCHOR} 𝐓𝐨𝐨𝐤 ⌁ {actual_duration:.2f} 𝘀𝗲𝗰𝗼𝗻𝗱𝘀\n"
         f"{DOT_ANCHOR} 𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐛𝐲 ⇾ {user_mention} [<code><b>{user_status}</b></code>]\n"
-        f"{DOT_ANCHOR} 𝐁𝐨𝐭 ➺ {BRAND_ANCHOR}\n"
-        "\n"
-        f"{BOT_LINK}"
+        f"{DOT_ANCHOR} 𝐁𝐨ت ➺ 𝖨𝖦𝖭𝖨𝖲𝖷"
     )
 
     try:
@@ -160,7 +156,7 @@ async def handle_mock_command(
     user_mention = f"<a href='tg://user?id={user_id}'>{message.from_user.first_name}</a>"
 
     if not await config.can_use_b3(chat_id, user_id):
-        await message.reply(f"{DOT_ANCHOR} ⛔ لا تملك الصلاحية أو يجب الانتظار 30 ثانية.\n\n{BOT_LINK}", parse_mode="HTML")
+        await message.reply(f"{DOT_ANCHOR} ⛔ لا تملك الصلاحية أو يجب الانتظار 30 ثانية.", parse_mode="HTML")
         return
 
     parts = message.text.split(maxsplit=1)
@@ -171,9 +167,7 @@ async def handle_mock_command(
             f"{DOT_ANCHOR} ❌ يرجى إدخال بيانات البطاقة\n"
             "\n"
             f"{DOT_ANCHOR} 📝 <b>الاستخدام:</b>\n"
-            f"{DOT_ANCHOR} <code>{command} CC|MM|YYYY|CVV</code>\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} <code>{command} CC|MM|YYYY|CVV</code>",
             parse_mode="HTML"
         )
         return
@@ -186,9 +180,7 @@ async def handle_mock_command(
             f"{DOT_ANCHOR} ❌ صيغة غير صحيحة\n"
             "\n"
             f"{DOT_ANCHOR} 📝 <b>الصيغة المطلوبة:</b>\n"
-            f"{DOT_ANCHOR} <code>CC|MM|YYYY|CVV</code>\n"
-            "\n"
-            f"{BOT_LINK}",
+            f"{DOT_ANCHOR} <code>CC|MM|YYYY|CVV</code>",
             parse_mode="HTML"
         )
         return
