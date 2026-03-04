@@ -420,7 +420,7 @@ async def handle_credits_user_id(message: types.Message, state: FSMContext):
 async def handle_unlimited_user_id(message: types.Message, state: FSMContext):
     await process_unlimited_user_id(message, state)
 
-@router.message(AdminActions.waiting_for_remove_user_id)
+@router.message(AdminActions.waiting_for_user_id_remove)
 async def handle_remove_user_id(message: types.Message, state: FSMContext):
     await process_remove_premium(message, state)
 
