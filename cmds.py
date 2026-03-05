@@ -11,10 +11,10 @@ from aiogram.types import (
 )
 import contextlib
 from config import Admin, PAYMENT_PROVIDER_TOKEN
+from branding import apply_branding
 
 # ========= Config =========
 BANNER_URL = "https://t.me/i5ese/347"
-DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 import premium_util
 import asyncio
@@ -115,247 +115,254 @@ async def _sub_info(user_id: int) -> dict:
 # ========= Captions =========
 
 def cap_start(first_name: str) -> str:
-    return (
-        f"{DOT_ANCHOR} Hello  𓏺 {first_name}\n"
-        "\n"
-        f"{DOT_ANCHOR} I'm 𝖨𝖦𝖭𝖨𝖲𝖷↯. A Multi Functional Bot With Many Tools and Checker Gateways.\n"
-        f"{DOT_ANCHOR} Press /cmds To Know My Features"
+    return apply_branding(
+        f"🌅Hello  𓏺 {first_name}\n\n"
+        "I'm 𝖨𝖦𝖭𝖨𝖲𝖷. A Multi Functional Bot With Many Tools and Checker Gateways.\n"
+        "Press /cmds To Know My Features"
     )
 
 
 def cap_my_profile(u: types.User, sub: dict) -> str:
     uname = f"@{u.username}" if u.username else "—"
     profile_link = f'<a href="tg://user?id={u.id}">Click Here</a>'
-    return (
-        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 — User Information\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} UID        : {u.id}\n"
-        f"{DOT_ANCHOR} Name       : {u.first_name}\n"
-        f"{DOT_ANCHOR} Username   : {uname}\n"
-        f"{DOT_ANCHOR} Profile    : {profile_link}\n"
-        "\n"
-        f"{DOT_ANCHOR} Subscription Information\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} Status     : {sub['tier']}\n"
-        f"{DOT_ANCHOR} Credits    : {sub['credits']}\n"
-        f"{DOT_ANCHOR} Validity   : {sub['valid_until']}\n"
-        f"{DOT_ANCHOR} Last Check : {sub['last_chk']}\n"
-        "\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} /Buy VIP Subscription to Unlock All Features.\n"
-        f"{DOT_ANCHOR} DeveBy ↝O.T"
+    return apply_branding(
+        "み 𝖨𝖦𝖭𝖨𝖲𝖷 — User Information\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        f"UID        : {u.id}\n"
+        f"Name       : {u.first_name}\n"
+        f"Username   : {uname}\n"
+        f"Profile    : {profile_link}\n\n"
+        "Subscription Information\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        f"Status     : {sub['tier']}\n"
+        f"Credits    : {sub['credits']}\n"
+        f"Validity   : {sub['valid_until']}\n"
+        f"Last Check : {sub['last_chk']}\n\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> /Buy VIP Subscription to Unlock All Features.\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> DeveBy ↝𝖨𝖦𝖭𝖨𝖲𝖷"
     )
 
 
 def cap_about() -> str:
-    return (
-        f"{DOT_ANCHOR} み  𝖨𝖦𝖭𝖨𝖲𝖷↯ BreakDown !\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} Language {DOT_ANCHOR} Python x Aiogram\n"
-        f"{DOT_ANCHOR} Version    {DOT_ANCHOR} v1.1\n"
-        f"{DOT_ANCHOR} Hosting      {DOT_ANCHOR} VPS\n"
-        f"{DOT_ANCHOR} Developer     {DOT_ANCHOR} O.T Dev\n"
-        f"{DOT_ANCHOR} Updated       {DOT_ANCHOR} 2026\n"
-        "\n"
-        f"{DOT_ANCHOR} Community\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} Official Channel\n"
-        f"{DOT_ANCHOR} Support Chat"
+    return apply_branding(
+        "み  𝖨𝖦𝖭𝖨𝖲𝖷↯ BreakDown !\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "Language ⌁ Python x Aiogram\n"
+        "Version    ⌁ v1.1\n"
+        "Hosting      ⌁ VPS\n"
+        "Developer     ⌁ 𝖨𝖦𝖭𝖨𝖲𝖷 Dev\n"
+        "Updated       ⌁ 2026\n\n"
+        "Community\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Official Channel\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Support Chat"
     )
 
 
 def cap_cmds() -> str:
-    return (
-        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Commands Overview\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} Gateways\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Auth\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Charge\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} LookUp\n"
-        "\n"
-        f"{DOT_ANCHOR} Tools\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Generator\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Scraper\n"
-        "\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯"
+    return apply_branding(
+        "𝖨𝖦𝖭𝖨𝖲𝖷 Bot — Commands Overview\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "Gateways\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  Auth\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  Charge\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  LookUp\n\n"
+        "Tools\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> CC Generator\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> CC Scraper\n\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "↯   Click Below to View Full Details  ↯"
     )
 
 
 def cap_gateways_overview() -> str:
-    return (
-        f"{DOT_ANCHOR} Overview Section of 𝖨𝖦𝖭𝖨𝖲𝖷\n"
-        "\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Auth     ⌁  3 Gates\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Charge   ⌁  4 Gates\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} LookUp   ⌁  4 Gates\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯  Check Below to View Available Gates."
+    return apply_branding(
+        "Overview Section of 𝖨𝖦𝖭𝖨𝖲𝖷 Bot\n\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  Auth     ⌁  3 Gates\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  Charge   ⌁  4 Gates\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a>  LookUp   ⌁  4 Gates\n\n"
+        "↯  Check Below to View Available Gates."
     )
 
 
 def cap_auth_gates() -> str:
-    return (
-        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 AUTH\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Stripe Auth  ( /au )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Stripe AUTH\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Braintree Auth  ( /ba )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree Auth\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Square Auth  ( /sq )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Square Auth"
+    return apply_branding(
+        "み 𝖨𝖦𝖭𝖨𝖲𝖷 Bot AUTH\n\n"
+        "↯ Name » Stripe Auth  ( /au )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Stripe AUTH\n\n"
+        "↯ Name » Braintree Auth  ( /ba )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Braintree Auth\n\n"
+        "↯ Name » Square Auth  ( /sq )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Square Auth"
     )
 
 
 def cap_charge_gates() -> str:
-    return (
-        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 CHARGE\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » PayPal Cvv  ( /Pv )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  PayPal\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Square charge  ( /Sh )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Square charge\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Azathoth  ( /az )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Authorize.Net [AIM]\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Stripe Charge  ( /sc )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  »  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Stripe v1"
+    return apply_branding(
+        "み 𝖨𝖦𝖭𝖨𝖲𝖷 Bot CHARGE\n\n"
+        "↯ Name » PayPal Cvv  ( /Pv )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  »  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  PayPal\n\n"
+        "↯ Name » Square charge  ( /Sh )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  »  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Square charge\n\n"
+        "↯ Name » Azathoth  ( /az )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  »  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Authorize.Net [AIM]\n\n"
+        "↯ Name » Stripe Charge  ( /sc )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  »  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Stripe v1"
     )
 
 
 def cap_lookup_gates() -> str:
-    return (
-        f"{DOT_ANCHOR} み 𝖨𝖦𝖭𝖨𝖲𝖷 LookUp\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Verify Secure  ( /vbv )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree 3DS\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Global 3DS  ( /G3 )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Global payment\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Global Passed  ( /GP )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Global payment\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name » Verify Passed  ( /BP )\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status   ⌁  PREMIUM  ⌁  ON\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Gateway  ⌁  Braintree Passed"
+    return apply_branding(
+        "み 𝖨𝖦𝖭𝖨𝖲𝖷 Bot LookUp\n\n"
+        "↯ Name » Verify Secure  ( /vbv )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Braintree 3DS\n\n"
+        "↯ Name » Global 3DS  ( /G3 )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Global payment\n\n"
+        "↯ Name » Global Passed  ( /GP )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Global payment\n\n"
+        "↯ Name » Verify Passed  ( /BP )\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status   ⌁  PREMIUM  ⌁  ON\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Gateway  ⌁  Braintree Passed"
     )
 
 
 def cap_tools() -> str:
-    return (
-        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Tools Overview\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Generator\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} CC Scraper\n"
-        "\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯   Click Below to View Full Details  ↯"
+    return apply_branding(
+        "𝖨𝖦𝖭𝖨𝖲𝖷 Bot — Tools Overview\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> CC Generator\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> CC Scraper\n\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "↯   Click Below to View Full Details  ↯"
     )
 
 
 def cap_cc_generator() -> str:
-    return (
-        f"{DOT_ANCHOR} あ 𝖨𝖦𝖭𝖨𝖲𝖷 Binning Tools あ\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name  Bin Checker\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /bin bin_number\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name  Card Generator\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /gen bin\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅\n"
-        "\n"
-        f"{DOT_ANCHOR} ↯ Name  Card Generator\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Format  » /mgen bin [Number card]\n"
-        f"{DOT_ANCHOR} {DOT_ANCHOR} Status  »  ACTIVE  ✅"
+    return apply_branding(
+        "あ 𝖨𝖦𝖭𝖨𝖲𝖷 Bot Binning Tools あ\n\n"
+        "↯ Name  Bin Checker\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Format  » /bin bin_number\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status  »  ACTIVE  ✅\n\n"
+        "↯ Name  Card Generator\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Format  » /gen bin\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status  »  ACTIVE  ✅\n\n"
+        "↯ Name  Card Generator\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Format  » /mgen bin [Number card]\n"
+        "<a href=\"http://t.me/IgnisXBot\">•</a> Status  »  ACTIVE  ✅"
     )
 
 
 def cap_cc_scraper() -> str:
-    return (
-        f"{DOT_ANCHOR} COMING SOON\n"
-        "\n"
-    )
+    return "COMING SOON"
 
 
-# ========= Keyboards =========
+# ========= Keyboards (aiogram 3.x style) =========
 
 def kb_start():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways")],
-        [InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools")],
         [
-            InlineKeyboardButton(text="MY PROFILE", callback_data="cmds:profile"),
-            InlineKeyboardButton(text="ABOUT", callback_data="cmds:about")
-        ]
+            InlineKeyboardButton(text="MY PROFILE", callback_data="st:profile", style="primary"),
+            InlineKeyboardButton(text="ABOUT", callback_data="st:about", style="primary")
+        ],
+        [InlineKeyboardButton(text="EXIT", callback_data="st:exit", style="danger")]
     ])
 
 
-def kb_cmds_main():
+def kb_profile_from_start():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways")],
-        [InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools")],
-        [InlineKeyboardButton(text="BACK", callback_data="st:home", style="primary")]
+        [InlineKeyboardButton(text="HOME", callback_data="st:home", style="primary")]
     ])
 
 
-def kb_gateways_overview():
+def kb_about_from_start():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="HOME", callback_data="st:home", style="primary")]
+    ])
+
+
+def kb_cmds():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="GATEWAYS", callback_data="cmds:gateways", style="primary"),
+            InlineKeyboardButton(text="TOOLS", callback_data="cmds:tools", style="primary")
+        ],
+        [InlineKeyboardButton(text="EXIT", callback_data="st:exit", style="danger")]
+    ])
+
+
+def kb_gateways():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text="AUTH", callback_data="gw:auth", style="success"),
-            InlineKeyboardButton(text="CHARGE", callback_data="gw:charge", style="success"),
-            InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup", style="success")
+            InlineKeyboardButton(text="CHARGE", callback_data="gw:charge", style="success")
         ],
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
+        [InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup", style="success")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_back_to_gw():
+def kb_auth_gates():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:gateways", style="primary")]
+        [InlineKeyboardButton(text="CHARGE", callback_data="gw:charge", style="success")],
+        [InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup", style="success")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_tools_overview():
+def kb_charge_gates():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="AUTH", callback_data="gw:auth", style="success")],
+        [InlineKeyboardButton(text="LOOKUP", callback_data="gw:lookup", style="success")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
+    ])
+
+
+def kb_lookup_gates():
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="AUTH", callback_data="gw:auth", style="success")],
+        [InlineKeyboardButton(text="CHARGE", callback_data="gw:charge", style="success")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
+    ])
+
+
+def kb_tools():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="CC GENERATOR", callback_data="tools:gen", style="success"),
-            InlineKeyboardButton(text="CC SCRAPER", callback_data="tools:scrape", style="success")
+            InlineKeyboardButton(text="BIN TOOLS", callback_data="tools:bin", style="primary"),
+            InlineKeyboardButton(text="SCRAPER", callback_data="tools:scraper", style="primary")
         ],
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_back_to_tools():
+def kb_bin_tools():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:tools", style="primary")]
+        [InlineKeyboardButton(text="SCRAPER", callback_data="tools:scraper", style="primary")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
-def kb_back_to_home():
+def kb_scraper():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="st:home", style="primary")]
+        [InlineKeyboardButton(text="BIN TOOLS", callback_data="tools:bin", style="primary")],
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
 # ========= Handlers =========
 
-async def start_command(message: types.Message):
+async def handle_start(message: types.Message):
     await message.reply_photo(
         photo=BANNER_URL,
         caption=cap_start(message.from_user.first_name),
@@ -364,62 +371,120 @@ async def start_command(message: types.Message):
     )
 
 
-async def cmds_entry(message: types.Message):
+async def handle_cmds(message: types.Message):
     await message.reply_photo(
         photo=BANNER_URL,
         caption=cap_cmds(),
-        reply_markup=kb_cmds_main(),
+        reply_markup=kb_cmds(),
         parse_mode="HTML"
     )
 
 
-async def sup_command(message: types.Message):
+async def handle_profile(message: types.Message):
     sub = await _sub_info(message.from_user.id)
     await message.reply_photo(
         photo=BANNER_URL,
         caption=cap_my_profile(message.from_user, sub),
+        reply_markup=kb_profile_from_start(),
         parse_mode="HTML"
     )
 
 
 # ========= Callbacks =========
 
-async def start_callbacks(call: types.CallbackQuery):
-    if call.data == "st:home":
+async def on_callback_query(call: types.CallbackQuery):
+    data = call.data
+    user = call.from_user
+
+    if data == "st:profile":
+        sub = await _sub_info(user.id)
         await call.message.edit_caption(
-            caption=cap_start(call.from_user.first_name),
+            caption=cap_my_profile(user, sub),
+            reply_markup=kb_profile_from_start(),
+            parse_mode="HTML"
+        )
+
+    elif data == "st:about":
+        await call.message.edit_caption(
+            caption=cap_about(),
+            reply_markup=kb_about_from_start(),
+            parse_mode="HTML"
+        )
+
+    elif data == "st:home":
+        await call.message.edit_caption(
+            caption=cap_start(user.first_name),
             reply_markup=kb_start(),
             parse_mode="HTML"
         )
-    await call.answer()
 
+    elif data == "st:exit":
+        await call.message.delete()
 
-async def cmds_callbacks(call: types.CallbackQuery):
-    data = call.data
-    if data == "cmds:home":
-        await call.message.edit_caption(caption=cap_cmds(), reply_markup=kb_cmds_main(), parse_mode="HTML")
+    elif data == "cmds:home":
+        await call.message.edit_caption(
+            caption=cap_cmds(),
+            reply_markup=kb_cmds(),
+            parse_mode="HTML"
+        )
+
     elif data == "cmds:gateways":
-        await call.message.edit_caption(caption=cap_gateways_overview(), reply_markup=kb_gateways_overview(), parse_mode="HTML")
-    elif data == "cmds:tools":
-        await call.message.edit_caption(caption=cap_tools(), reply_markup=kb_tools_overview(), parse_mode="HTML")
-    elif data == "cmds:profile":
-        sub = await _sub_info(call.from_user.id)
-        await call.message.edit_caption(caption=cap_my_profile(call.from_user, sub), reply_markup=kb_back_to_home(), parse_mode="HTML")
-    elif data == "cmds:about":
-        await call.message.edit_caption(caption=cap_about(), reply_markup=kb_back_to_home(), parse_mode="HTML")
+        await call.message.edit_caption(
+            caption=cap_gateways_overview(),
+            reply_markup=kb_gateways(),
+            parse_mode="HTML"
+        )
 
-    # Gateways
     elif data == "gw:auth":
-        await call.message.edit_caption(caption=cap_auth_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
-    elif data == "gw:charge":
-        await call.message.edit_caption(caption=cap_charge_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
-    elif data == "gw:lookup":
-        await call.message.edit_caption(caption=cap_lookup_gates(), reply_markup=kb_back_to_gw(), parse_mode="HTML")
+        await call.message.edit_caption(
+            caption=cap_auth_gates(),
+            reply_markup=kb_auth_gates(),
+            parse_mode="HTML"
+        )
 
-    # Tools
-    elif data == "tools:gen":
-        await call.message.edit_caption(caption=cap_cc_generator(), reply_markup=kb_back_to_tools(), parse_mode="HTML")
-    elif data == "tools:scrape":
-        await call.message.edit_caption(caption=cap_cc_scraper(), reply_markup=kb_back_to_tools(), parse_mode="HTML")
+    elif data == "gw:charge":
+        await call.message.edit_caption(
+            caption=cap_charge_gates(),
+            reply_markup=kb_charge_gates(),
+            parse_mode="HTML"
+        )
+
+    elif data == "gw:lookup":
+        await call.message.edit_caption(
+            caption=cap_lookup_gates(),
+            reply_markup=kb_lookup_gates(),
+            parse_mode="HTML"
+        )
+
+    elif data == "cmds:tools":
+        await call.message.edit_caption(
+            caption=cap_tools(),
+            reply_markup=kb_tools(),
+            parse_mode="HTML"
+        )
+
+    elif data == "tools:bin":
+        await call.message.edit_caption(
+            caption=cap_cc_generator(),
+            reply_markup=kb_bin_tools(),
+            parse_mode="HTML"
+        )
+
+    elif data == "tools:scraper":
+        await call.message.edit_caption(
+            caption=cap_cc_scraper(),
+            reply_markup=kb_scraper(),
+            parse_mode="HTML"
+        )
 
     await call.answer()
+
+
+# ========= Logic Helper =========
+
+async def _edit_media(message: types.Message, photo_url: str, caption: str, reply_markup=None):
+    with contextlib.suppress(Exception):
+        await message.edit_media(
+            media=InputMediaPhoto(media=photo_url, caption=caption, parse_mode="HTML"),
+            reply_markup=reply_markup
+        )

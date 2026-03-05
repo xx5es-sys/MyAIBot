@@ -8,13 +8,14 @@ All operations use premium.json (lowercase, case-sensitive)
 
 import json
 import asyncio
+import datetime
 from datetime import datetime, timezone
 import aiofiles
 from aiogram.types import Message
 from aiogram import Bot
-# import config
+from branding import apply_branding
 
-bot = Bot(token='7830034663:AAHcEFO9dHuQRPdRx93sKwYt2TzWGBvev70')
+bot = Bot(token='7830034663:AAHcEFO9dHuRPdRx93sKwYt2TzWGBvev70')
 
 # Thread-safe lock for file operations
 _file_lock = asyncio.Lock()
@@ -210,18 +211,6 @@ async def update_last_chk(user_id: str):
 # Administrative Functions
 # ===========================
 
-async def add_credits(user_id: str, amount: int):
-    """Add credits to user account."""
-    async with _file_lock:
-        data = await _read_data()
-        users = data.get("premium_users", [])
-        
-        for user in users:
-            if str(user.get("user_id")) == str(user_id):
-                user["credits"] = max(0, user.get("credits", 0) + amount)
-                await _write_data(data)
-                return
-
 async def add_credits(user_id: str, amount: int, username: str = None):
     """Add credits to user account.
     - If user exists in premium_users: increase their credits.
@@ -295,13 +284,13 @@ async def send_premium_data(message: Message):
     
     # Check if Admin
     if str(user_id) == str(608548316):
-        msg = (
+        msg = apply_branding(
             "み Subscription Information\n"
             "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-            "• Status       ADMIN\n"
-            "• Credits      ∞\n"
-            "• Validity     Unlimited\n"
-            "• Last Chk     —\n"
+            "<a href=\"http://t.me/IgnisXBot\">•</a> Status       ADMIN\n"
+            "<a href=\"http://t.me/IgnisXBot\">•</a> Credits      ∞\n"
+            "<a href=\"http://t.me/IgnisXBot\">•</a> Validity     Unlimited\n"
+            "<a href=\"http://t.me/IgnisXBot\">•</a> Last Chk     —\n"
         )
         await message.reply(msg, parse_mode='HTML')
         return
@@ -348,13 +337,13 @@ async def send_premium_data(message: Message):
     # Determine Last Chk
     last_chk = _format_display_time(record.get("last_chk", "—"))
     
-    msg = (
+    msg = apply_branding(
         "み Subscription Information\n"
         "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"• Status       {status}\n"
-        f"• Credits      {credits_display}\n"
-        f"• Validity     {validity}\n"
-        f"• Last Chk     {last_chk}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Status       {status}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Credits      {credits_display}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Validity     {validity}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Last Chk     {last_chk}\n"
     )
     
     await message.reply(msg, parse_mode='HTML')
@@ -401,11 +390,10 @@ async def check_subscriptions():
             
             for user in expired_users:
                 try:
-                    message_text = (
+                    message_text = apply_branding(
                         f"Hi @{user.get('username', 'User')} 👋, your <b>time-based subscription</b> has <b>expired!</b> "
                         f"To <b>reactivate</b>, please <b>contact</b> @Mustafa2l."
                     )
                     await bot.send_message(user["user_id"], message_text, parse_mode='HTML')
                 except:
                     pass
-

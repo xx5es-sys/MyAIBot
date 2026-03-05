@@ -12,6 +12,7 @@ import datetime
 import random
 import time
 import io
+import re
 from aiogram import types, Bot, Router, F
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
@@ -21,10 +22,10 @@ from aiogram.types import (
 )
 import config
 from premium_util import can_start_mass, consume_for_single, refund_credit, update_last_chk, is_premium
+from branding import apply_branding
 
-# ========= Config =========
+# Banner ثابت
 BANNER_URL = "https://t.me/i5ese/347"
-DOT_ANCHOR = '<a href="http://t.me/IgnisXBot">•</a>'
 
 # Router خاص بالـ mass
 mass_router = Router()
@@ -60,12 +61,12 @@ LOOKUP_GATES = [
 # =================================================================
 
 MOCK_RESPONSES_MASS = [
-    ("challenge_required", "OTP REQUIRED ✅", "otp", False),
-    ("authenticate_successful", "PASSED ✅", "passed", False),
-    ("authenticate_attempt_successful", "PASSED ✅", "passed", False),
-    ("authenticate_rejected", "REJECTED ❌", "rejected", False),
-    ("authenticate_frictionless_failed", "REJECTED ❌", "rejected", False),
-    ("Gateway Timeout", "UNKNOWN ❓", "unknown", True),
+    ("challenge_required", "𝙊𝙏𝙋 𝙍𝙀𝙌𝙐𝙄𝙍𝙀𝘿 ✅", "otp", False),
+    ("authenticate_successful", "𝙋𝘼𝙎𝙎𝙀𝘿 ✅", "passed", False),
+    ("authenticate_attempt_successful", "𝙋𝘼𝙎𝙎𝙀𝘿 ✅", "passed", False),
+    ("authenticate_rejected", "𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿 ❌", "rejected", False),
+    ("authenticate_frictionless_failed", "𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿 ❌", "rejected", False),
+    ("Gateway Timeout", "𝙐𝙉𝙆𝙉𝙊𝙒𝙉 ❓", "unknown", True),
 ]
 
 RESPONSE_WEIGHTS = [20, 15, 15, 20, 20, 10]
@@ -128,32 +129,32 @@ async def get_bin_info(cc: str) -> dict:
 def kb_file_uploaded():
     return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="AUTH", callback_data="mass:type:auth", style="success"),
-            InlineKeyboardButton(text="CHARGE", callback_data="mass:type:charge", style="success")
+            InlineKeyboardButton(text="AUTH", callback_data="mass:type:auth", style="primary"),
+            InlineKeyboardButton(text="CHARGE", callback_data="mass:type:charge", style="primary")
         ],
-        [InlineKeyboardButton(text="LOOKUP", callback_data="mass:type:lookup", style="success")],
-        [InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")]
+        [InlineKeyboardButton(text="LOOKUP", callback_data="mass:type:lookup", style="primary")],
+        [InlineKeyboardButton(text="CANCEL", callback_data="mass:cancel", style="danger")]
     ])
 
 
 def kb_auth_gates():
     buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in AUTH_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
+    buttons.append([InlineKeyboardButton(text="⬅️ BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="CANCEL", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_charge_gates():
     buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in CHARGE_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
+    buttons.append([InlineKeyboardButton(text="⬅️ BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="CANCEL", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_lookup_gates():
     buttons = [[InlineKeyboardButton(text=g["name"], callback_data=f"mass:gate:{g['id']}", style="success")] for g in LOOKUP_GATES]
-    buttons.append([InlineKeyboardButton(text="BACK", callback_data="mass:back_to_types", style="primary")])
-    buttons.append([InlineKeyboardButton(text="EXIT", callback_data="mass:cancel", style="danger")])
+    buttons.append([InlineKeyboardButton(text="⬅️ BACK", callback_data="mass:back_to_types", style="primary")])
+    buttons.append([InlineKeyboardButton(text="CANCEL", callback_data="mass:cancel", style="danger")])
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
@@ -168,37 +169,39 @@ def create_stats_keyboard(user_id: int) -> InlineKeyboardMarkup:
     gate_type = session.get("gate_type", "auth")
 
     buttons = [
-        [InlineKeyboardButton(text=f"TOTAL: [ {total} ]", callback_data="mass_info", style="primary")],
-        [InlineKeyboardButton(text=f"PROGRESS: [ {progress:.2f}% ]", callback_data="mass_info", style="primary")],
+        [InlineKeyboardButton(text=f"𝙏𝙊𝙏𝘼𝙇 🌪️: [ {total} ]", callback_data="mass_info", style="primary")],
+        [InlineKeyboardButton(text=f"𝙋𝙍𝙊𝙂𝙍𝙀𝙎𝙎 🥷🏻: [ {progress:.2f}% ]", callback_data="mass_info", style="primary")]
     ]
 
+    # New Category Logic
     if gate_type == "auth":
-        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
-        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
-        buttons.append([InlineKeyboardButton(text=f"CCN: [ {session.get('ccn', 0)} ]", callback_data="mass_info", style="danger")])
+        buttons.append([InlineKeyboardButton(text=f"𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"𝘿𝙀𝘾𝙇𝙄𝙉𝙀𝘿 ❌: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
+        buttons.append([InlineKeyboardButton(text=f"𝘾𝘾𝙉 ♻️: [ {session.get('ccn', 0)} ]", callback_data="mass_info", style="success")])
     elif gate_type == "charge":
-        buttons.append([InlineKeyboardButton(text=f"CHARGE: [ {session.get('charge', 0)} ]", callback_data="mass_info", style="success")])
-        buttons.append([InlineKeyboardButton(text=f"APPROVED: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
-        buttons.append([InlineKeyboardButton(text=f"DECLINED: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
-    elif gate_type == "lookup":
-        buttons.append([InlineKeyboardButton(text=f"OTP REQUEST: [ {session.get('otp', 0)} ]", callback_data="mass_info", style="success")])
-        buttons.append([InlineKeyboardButton(text=f"PASSED: [ {session.get('passed', 0)} ]", callback_data="mass_info", style="success")])
-        buttons.append([InlineKeyboardButton(text=f"REJECTED: [ {session.get('rejected', 0)} ]", callback_data="mass_info", style="danger")])
+        buttons.append([InlineKeyboardButton(text=f"𝘾𝙃𝘼𝙍𝙂𝙀 💰: [ {session.get('charge', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅: [ {session.get('approved', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"𝘿𝙀𝘾𝙇𝙄𝙉𝙀𝘿 ❌: [ {session.get('declined', 0)} ]", callback_data="mass_info", style="danger")])
+    else: # lookup / 3ds
+        buttons.append([InlineKeyboardButton(text=f"𝙊𝙏𝙋 𝙍𝙀𝙌𝙐𝙄𝙍𝙀𝘿 ✅: [ {session.get('otp', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"𝙋𝘼𝙎𝙎𝙀𝘿 ✅: [ {session.get('passed', 0)} ]", callback_data="mass_info", style="success")])
+        buttons.append([InlineKeyboardButton(text=f"𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿 ❌: [ {session.get('rejected', 0)} ]", callback_data="mass_info", style="danger")])
 
-    buttons.append([InlineKeyboardButton(text=f"UNKNOWN: [ {session['unknown']} ]", callback_data="mass_info", style="danger")])
+    buttons.append([InlineKeyboardButton(text=f"𝙐𝙉𝙆𝙉𝙊𝙒𝙉 ❓: [ {session.get('unknown', 0)} ]", callback_data="mass_info", style="primary")])
 
     if session["status"] == "processing":
-        buttons.append([InlineKeyboardButton(text="STOP", callback_data="mass:stop")])
+        # STOP button must be without style
+        buttons.append([InlineKeyboardButton(text="[ STOP ]", callback_data="mass:stop")])
     elif session["status"] == "paused":
-        buttons.append([InlineKeyboardButton(text="RESUME", callback_data="mass:resume", style="success")])
-        buttons.append([InlineKeyboardButton(text="NEW FILE", callback_data="mass:new_file", style="success")])
+        buttons.append([InlineKeyboardButton(text="𝙍𝙀𝙎𝙐𝙈𝙀 🪢", callback_data="mass:resume", style="success")])
+        buttons.append([InlineKeyboardButton(text="𝙉𝙀𝙒 𝙁𝙄𝙇𝙀 🪐", callback_data="mass:new_file", style="primary")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
 def kb_completed():
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text="BACK", callback_data="cmds:home", style="primary")]
+        [InlineKeyboardButton(text="HOME", callback_data="cmds:home", style="primary")]
     ])
 
 
@@ -207,18 +210,15 @@ def kb_completed():
 # =================================================================
 
 def cap_file_uploaded(file_name: str, total_lines: int, valid_items: int) -> str:
-    return (
-        f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — File Uploaded\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        "\n"
-        f"{DOT_ANCHOR} Your file has been received successfully.\n"
-        "\n"
-        f"{DOT_ANCHOR} File name   ⌁  {file_name}\n"
-        f"{DOT_ANCHOR} Total lines ⌁  {total_lines}\n"
-        f"{DOT_ANCHOR} Valid items ⌁  {valid_items}\n"
-        "\n"
-        f"{DOT_ANCHOR} ┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
-        f"{DOT_ANCHOR} ↯  Select Gate Type To Continue  ↯"
+    return apply_branding(
+        "𝖨𝖦𝖭𝖨𝖲𝖷 Bot — File Uploaded\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n\n"
+        "Your file has been received successfully.\n\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> File name   ⌁  {file_name}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Total lines ⌁  {total_lines}\n"
+        f"<a href=\"http://t.me/IgnisXBot\">•</a> Valid items ⌁  {valid_items}\n\n"
+        "┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉┉\n"
+        "↯  Select Gate Type To Continue  ↯"
     )
 
 
@@ -232,6 +232,7 @@ async def check_single_card_mock(card_data: str, user_id: int, bot: Bot) -> bool
         return False
 
     user_id_str = str(user_id)
+    gate_type = session.get("gate_type", "auth")
 
     card_info = card_data.strip().replace('/', '|')
     parts = card_info.split('|')
@@ -249,224 +250,218 @@ async def check_single_card_mock(card_data: str, user_id: int, bot: Bot) -> bool
 
     bin_info = await get_bin_info(cc)
 
-    # محاكاة لنتائج مختلفة حسب نوع البوابة
-    gate_type = session.get("gate_type", "auth")
-    
+    # Determine mock response based on gate type
     if gate_type == "auth":
-        # (Status, Result, Category)
-        results = [
-            ("Approved ✅", "Payment method successfully added", "approved"),
-            ("Declined ❌", "Your card was declined", "declined"),
-            ("CCN ❌", "Card Issuer Declined CVV", "ccn"),
-        ]
-        status, result, category = random.choices(results, weights=[20, 60, 20], k=1)[0]
+        # AUTH: APPROVED, DECLINED, CCN
+        status_code, response_text, category = random.choice([
+            ("Approved", "𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅", "approved"),
+            ("Declined", "𝘿𝙀𝘾𝙇𝙄𝙉𝙀𝘿 ❌", "declined"),
+            ("CCN", "𝘾𝘾𝙉 ♻️", "ccn"),
+            ("Unknown", "𝙐𝙉𝙆𝙉𝙊𝙒𝙉 ❓", "unknown")
+        ])
     elif gate_type == "charge":
-        results = [
-            ("Charged ✅", "Transaction successful", "charge"),
-            ("Approved ✅", "Insufficient Funds", "approved"),
-            ("Declined ❌", "Your card was declined", "declined"),
-        ]
-        status, result, category = random.choices(results, weights=[10, 20, 70], k=1)[0]
-    else: # lookup
-        status, result, category, _ = random.choices(MOCK_RESPONSES_MASS, weights=RESPONSE_WEIGHTS, k=1)[0]
+        # CHARGE: CHARGE, APPROVED, DECLINED
+        status_code, response_text, category = random.choice([
+            ("Charged", "𝘾𝙃𝘼𝙍𝙂𝙀 💰", "charge"),
+            ("Approved", "𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅", "approved"),
+            ("Declined", "𝘿𝙀𝘾𝙇𝙄𝙉𝙀𝘿 ❌", "declined"),
+            ("Unknown", "𝙐𝙉𝙆𝙉𝙊𝙒𝙉 ❓", "unknown")
+        ])
+    else:
+        # 3DS: OTP REQUEST, PASSED, REJECTED
+        status_code, response_text, category = random.choice([
+            ("OTP Required", "𝙊𝙏𝙋 𝙍𝙀𝙌𝙐𝙄𝙍𝙀𝘿 ✅", "otp"),
+            ("Passed", "𝙋𝘼𝙎𝙎𝙀𝘿 ✅", "passed"),
+            ("Rejected", "𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿 ❌", "rejected"),
+            ("Unknown", "𝙐𝙉𝙆𝙉𝙊𝙒𝙉 ❓", "unknown")
+        ])
 
-    session[category] = session.get(category, 0) + 1
+    await asyncio.sleep(random.uniform(0.5, 1.5))
+
     session["processed"] += 1
+    session[category] = session.get(category, 0) + 1
 
-    # إرسال نتيجة البطاقة كـ Reply على رسالة الإحصائيات أو رسالة الملف
-    user_mention = f"<a href='tg://user?id={user_id}'>{session['user_name']}</a>"
-    
-    response_text = (
-        f"{DOT_ANCHOR} {status}\n"
-        "\n"
-        f"{DOT_ANCHOR} 𝗖𝗮𝗿𝗱 ⌁ <code>{card_info}</code>\n"
-        f"{DOT_ANCHOR} 𝐆𝐚𝐭𝐞𝐰𝐚𝐲 ⌁ {session['gateway_name']}\n"
-        f"{DOT_ANCHOR} 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 ⌁ {result}\n"
-        "\n"
-        f"{DOT_ANCHOR} 𝗜𝗻𝗳𝗼 ⌁ {bin_info['brand']} - {bin_info['type']} - {bin_info['level']}\n"
-        f"{DOT_ANCHOR} 𝐈𝐬𝐬𝐮𝐞𝐫 ⌁ {bin_info['bank']}\n"
-        f"{DOT_ANCHOR} 𝐂𝐨𝐮𝐧𝐭𝐫𝐲 ⌁ {bin_info['country']} {bin_info['country_flag']}\n"
-        "\n"
-        f"{DOT_ANCHOR} 𝐑𝐞𝐪𝐮𝐞𝐬𝐭𝐞𝐝 𝐛𝐲 ⇾ {user_mention}\n"
-        f"{DOT_ANCHOR} 𝐁𝐨𝐭 ➺ 𝖨𝖦𝖭𝖨𝖲𝖷"
-    )
-
-    try:
-        # إرسال النتيجة كـ Reply على رسالة الـ Stats
-        await bot.send_message(
-            chat_id=session["chat_id"],
-            text=response_text,
-            reply_to_message_id=session["message_id"],
-            parse_mode="HTML"
+    if category in ["otp", "passed", "approved", "charge", "ccn"]:
+        gateway_name = session.get("gateway_name", "Unknown")
+        text = apply_branding(
+            f"{response_text}\n\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝗖𝗮𝗿𝗱 ⌁ <code>{card_data}</code>\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝐆𝐚𝐭𝐞𝐰𝐚𝐲 ⌁ {gateway_name}\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 ⌁ {status_code}\n\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝗜𝗻𝗳𝗼 ⌁ {bin_info['brand']} - {bin_info['type']} - {bin_info['level']}\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝐈𝐬𝐬𝐮𝐞𝐫 ⌁ {bin_info['bank']}\n"
+            f"<a href=\"http://t.me/IgnisXBot\">•</a> 𝐂𝐨𝐮𝐧𝐭𝐫𝐲 ⌁ {bin_info['country']} {bin_info['country_flag']}"
         )
-    except:
-        pass
+        try:
+            await bot.send_message(
+                session["chat_id"], 
+                text, 
+                parse_mode="HTML",
+                reply_to_message_id=session.get("message_id")
+            )
+        except:
+            pass
 
     return True
 
 
 # =================================================================
-# Handlers
+# Handlers (aiogram 3.x - Router + decorators)
 # =================================================================
 
 @mass_router.message(F.document)
-async def handle_document_upload(message: Message, state: FSMContext):
-    """استلام ملف البطاقات"""
-    if not message.document.file_name.endswith('.txt'):
+async def handle_document(message: Message, state: FSMContext):
+    """معالج رفع الملفات .txt"""
+    user_id = message.from_user.id
+
+    if not message.document:
         return
 
-    # التحقق من الصلاحية
-    can_start, msg = await can_start_mass(str(message.from_user.id))
-    if not can_start:
-        await message.reply(f"{DOT_ANCHOR} {msg}", parse_mode="HTML")
+    file_name = message.document.file_name
+    if not file_name.endswith('.txt'):
+        return
+
+    # Check permission
+    if not await can_start_mass(str(user_id)):
+        await message.reply(apply_branding("❌ Your subscription does not allow mass check."), parse_mode="HTML")
         return
 
     file_id = message.document.file_id
-    file = await message.bot.get_file(file_id)
+    bot = message.bot
+    file = await bot.get_file(file_id)
     file_path = file.file_path
     
-    # تحميل الملف ومعالجته
-    content = await message.bot.download_file(file_path)
-    text_content = content.read().decode('utf-8', errors='ignore')
-    lines = text_content.splitlines()
+    downloaded_file = await bot.download_file(file_path)
+    content = downloaded_file.read().decode('utf-8', errors='ignore')
     
-    valid_cards = []
+    lines = content.splitlines()
+    cards = []
     for line in lines:
-        if len(line.strip()) > 10:
-            valid_cards.append(line.strip())
+        line = line.strip()
+        if not line: continue
+        if re.search(r'\d{15,16}', line):
+            cards.append(line)
 
-    if not valid_cards:
-        await message.reply(f"{DOT_ANCHOR} No valid cards found in the file.", parse_mode="HTML")
+    if not cards:
+        await message.reply(apply_branding("❌ No valid cards found in the file."), parse_mode="HTML")
         return
 
-    # تخزين الجلسة
-    mass_sessions[message.from_user.id] = {
-        "cards": valid_cards,
+    mass_sessions[user_id] = {
+        "cards": cards,
         "processed": 0,
         "approved": 0,
         "declined": 0,
         "ccn": 0,
         "charge": 0,
-        "otp": 0,
         "passed": 0,
         "rejected": 0,
+        "otp": 0,
         "unknown": 0,
         "status": "waiting",
         "chat_id": message.chat.id,
-        "user_name": message.from_user.first_name,
-        "file_name": message.document.file_name
+        "message_id": None,
+        "gateway_id": None,
+        "gateway_name": None,
+        "gate_type": None
     }
 
-    # تم تغيير الـ reply_photo ليكون reply على الملف
-    await message.reply_photo(
+    await state.set_state(MassCheckState.waiting_for_gate_type)
+    msg = await message.reply_photo(
         photo=BANNER_URL,
-        caption=cap_file_uploaded(message.document.file_name, len(lines), len(valid_cards)),
+        caption=cap_file_uploaded(file_name, len(lines), len(cards)),
+        reply_markup=kb_file_uploaded(),
+        parse_mode="HTML"
+    )
+    mass_sessions[user_id]["message_id"] = msg.message_id
+
+
+@mass_router.callback_query(F.data.startswith("mass:type:"))
+async def select_gate_type(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    if user_id not in mass_sessions:
+        await call.answer("Session expired. Please upload the file again.")
+        return
+
+    gate_type = call.data.split(":")[2]
+    mass_sessions[user_id]["gate_type"] = gate_type
+    
+    if gate_type == "auth":
+        kb = kb_auth_gates()
+    elif gate_type == "charge":
+        kb = kb_charge_gates()
+    else:
+        kb = kb_lookup_gates()
+
+    await call.message.edit_caption(
+        caption=apply_branding("み 𝖨𝖦𝖭𝖨𝖲𝖷 Bot — Select Gateway\n\nSelect the gateway to start mass check."),
+        reply_markup=kb,
+        parse_mode="HTML"
+    )
+    await state.set_state(MassCheckState.waiting_for_gateway)
+    await call.answer()
+
+
+@mass_router.callback_query(F.data == "mass:back_to_types")
+async def back_to_types(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    if user_id not in mass_sessions:
+        await call.answer()
+        return
+
+    await call.message.edit_caption(
+        caption=apply_branding("𝖨𝖦𝖭𝖨𝖲𝖷 Bot — File Uploaded\n\nSelect Gate Type To Continue"),
         reply_markup=kb_file_uploaded(),
         parse_mode="HTML"
     )
     await state.set_state(MassCheckState.waiting_for_gate_type)
-
-
-@mass_router.callback_query(F.data.startswith("mass:"))
-async def handle_mass_callbacks(call: CallbackQuery, state: FSMContext, bot: Bot):
-    user_id = call.from_user.id
-    session = mass_sessions.get(user_id)
-    if not session:
-        await call.answer("Session not found. Please upload the file again.")
-        return
-
-    data = call.data.split(":")
-
-    if data[1] == "cancel":
-        mass_sessions.pop(user_id, None)
-        await call.message.delete()
-        await state.clear()
-        await call.answer("Mass check cancelled.")
-
-    elif data[1] == "type":
-        gate_type = data[2]
-        session["gate_type"] = gate_type
-        if gate_type == "auth":
-            kb = kb_auth_gates()
-        elif gate_type == "charge":
-            kb = kb_charge_gates()
-        else:
-            kb = kb_lookup_gates()
-        
-        await call.message.edit_caption(
-            caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Select Gateway\n\n{DOT_ANCHOR} Choose the gateway you want to use for mass checking.",
-            reply_markup=kb,
-            parse_mode="HTML"
-        )
-        await state.set_state(MassCheckState.waiting_for_gateway)
-
-    elif data[1] == "back_to_types":
-        await call.message.edit_caption(
-            caption=cap_file_uploaded(session["file_name"], 0, len(session["cards"])),
-            reply_markup=kb_file_uploaded(),
-            parse_mode="HTML"
-        )
-        await state.set_state(MassCheckState.waiting_for_gate_type)
-
-    elif data[1] == "gate":
-        gate_id = data[2]
-        session["gateway_id"] = gate_id
-        
-        # البحث عن اسم البوابة
-        all_gates = AUTH_GATES + CHARGE_GATES + LOOKUP_GATES
-        gate_name = next((g["name"] for g in all_gates if g["id"] == gate_id), "Unknown")
-        session["gateway_name"] = gate_name
-        session["status"] = "processing"
-        session["message_id"] = call.message.message_id
-        
-        await call.message.edit_caption(
-            caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Mass Checking Started\n\n{DOT_ANCHOR} Gateway: {gate_name}\n{DOT_ANCHOR} Status: Processing...",
-            reply_markup=create_stats_keyboard(user_id),
-            parse_mode="HTML"
-        )
-        
-        # بدء عملية الفحص في الخلفية
-        asyncio.create_task(run_mass_check(user_id, bot))
-
-    elif data[1] == "stop":
-        session["status"] = "paused"
-        await call.message.edit_reply_markup(reply_markup=create_stats_keyboard(user_id))
-        await call.answer("Processing paused.")
-
-    elif data[1] == "resume":
-        session["status"] = "processing"
-        await call.message.edit_reply_markup(reply_markup=create_stats_keyboard(user_id))
-        asyncio.create_task(run_mass_check(user_id, bot))
-        await call.answer("Processing resumed.")
-
-    elif data[1] == "new_file":
-        mass_sessions.pop(user_id, None)
-        await call.message.delete()
-        await state.clear()
-        await call.answer("Please upload a new file.")
-
     await call.answer()
 
 
-async def run_mass_check(user_id: int, bot: Bot):
+@mass_router.callback_query(F.data.startswith("mass:gate:"))
+async def start_mass_check(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    if user_id not in mass_sessions:
+        await call.answer()
+        return
+
+    gate_id = call.data.split(":")[2]
+    
+    # Find gate name
+    all_gates = AUTH_GATES + CHARGE_GATES + LOOKUP_GATES
+    gate_name = next((g["name"] for g in all_gates if g["id"] == gate_id), "Unknown")
+
+    session = mass_sessions[user_id]
+    session["gateway_id"] = gate_id
+    session["gateway_name"] = gate_name
+    session["status"] = "processing"
+
+    await call.message.edit_caption(
+        caption=apply_branding(f"み 𝖨𝖦𝖭𝖨𝖲𝖷 Bot — Processing\n\nGate: {gate_name}\nStarting the process..."),
+        reply_markup=create_stats_keyboard(user_id),
+        parse_mode="HTML"
+    )
+    
+    await state.set_state(MassCheckState.processing)
+    await call.answer(f"Started checking with {gate_name}")
+
+    # Start processing loop
+    asyncio.create_task(mass_process_loop(user_id, call.message.bot))
+
+
+async def mass_process_loop(user_id: int, bot: Bot):
     session = mass_sessions.get(user_id)
     if not session: return
 
     cards = session["cards"]
-    start_index = session["processed"]
-
-    for i in range(start_index, len(cards)):
-        if session["status"] != "processing":
-            break
+    
+    while session["processed"] < len(cards) and session["status"] == "processing":
+        card = cards[session["processed"]]
         
-        card = cards[i]
         success = await check_single_card_mock(card, user_id, bot)
-        
-        if not success: # رصيد منتهي
+        if not success:
             break
-            
-        # تحديث لوحة الإحصائيات كل 3 بطاقات أو في النهاية
-        if (i + 1) % 3 == 0 or (i + 1) == len(cards):
+        
+        if session["processed"] % 5 == 0 or session["processed"] == len(cards):
             try:
                 await bot.edit_message_reply_markup(
                     chat_id=session["chat_id"],
@@ -476,8 +471,7 @@ async def run_mass_check(user_id: int, bot: Bot):
             except:
                 pass
         
-        # تأخير بسيط بين البطاقات
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(0.1)
 
     if session["processed"] >= len(cards):
         session["status"] = "completed"
@@ -485,7 +479,7 @@ async def run_mass_check(user_id: int, bot: Bot):
             await bot.edit_message_caption(
                 chat_id=session["chat_id"],
                 message_id=session["message_id"],
-                caption=f"{DOT_ANCHOR} 𝖨𝖦𝖭𝖨𝖲𝖷 — Mass Check Completed ✅\n\n{DOT_ANCHOR} All cards have been processed.",
+                caption=apply_branding("✅ <b>Mass Check Completed!</b>\n\nAll cards have been processed."),
                 reply_markup=kb_completed(),
                 parse_mode="HTML"
             )
@@ -493,5 +487,45 @@ async def run_mass_check(user_id: int, bot: Bot):
             pass
 
 
-def register_handlers(dp: Router):
+@mass_router.callback_query(F.data == "mass:stop")
+async def stop_mass(call: CallbackQuery):
+    user_id = call.from_user.id
+    if user_id in mass_sessions:
+        mass_sessions[user_id]["status"] = "paused"
+        await call.message.edit_reply_markup(reply_markup=create_stats_keyboard(user_id))
+        await call.answer("Stopped.")
+
+
+@mass_router.callback_query(F.data == "mass:resume")
+async def resume_mass(call: CallbackQuery):
+    user_id = call.from_user.id
+    if user_id in mass_sessions:
+        mass_sessions[user_id]["status"] = "processing"
+        await call.message.edit_reply_markup(reply_markup=create_stats_keyboard(user_id))
+        asyncio.create_task(mass_process_loop(user_id, call.message.bot))
+        await call.answer("Resumed.")
+
+
+@mass_router.callback_query(F.data == "mass:new_file")
+async def new_file_mass(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    if user_id in mass_sessions:
+        del mass_sessions[user_id]
+    
+    await call.message.reply(apply_branding("Send the new .txt file now."), parse_mode="HTML")
+    await call.answer()
+
+
+@mass_router.callback_query(F.data == "mass:cancel")
+async def cancel_mass(call: CallbackQuery, state: FSMContext):
+    user_id = call.from_user.id
+    if user_id in mass_sessions:
+        del mass_sessions[user_id]
+    
+    await state.clear()
+    await call.message.delete()
+    await call.answer("Cancelled.")
+
+
+def register_handlers(dp):
     dp.include_router(mass_router)

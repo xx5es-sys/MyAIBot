@@ -1,15 +1,8 @@
-"""
-middlewares.py
-
-Professional Aiogram 3.x middlewares:
-- RateLimitMiddleware: throttle user messages per second.
-- ExceptionMiddleware: catches exceptions in handlers and logs them.
-- MaintenanceMiddleware: block commands during maintenance mode.
-"""
 import logging
 import time
 from typing import Callable, Dict, Any, Awaitable
 from aiogram import BaseMiddleware, types
+from branding import apply_branding
 
 # Configure module-level logger
 logger = logging.getLogger(__name__)
@@ -43,7 +36,7 @@ class RateLimitMiddleware(BaseMiddleware):
         if elapsed < self.rate_limit:
             retry_after = self.rate_limit - elapsed
             logger.warning(f"User {user_id} throttled. Retry after {retry_after:.2f}s.")
-            await event.reply(f"🕒 You're sending messages too fast. Please wait {retry_after:.1f} seconds.")
+            await event.reply(apply_branding(f"🕒 You're sending messages too fast. Please wait {retry_after:.1f} seconds."), parse_mode="HTML")
             return  # Cancel handler
 
         self.user_timestamps[user_id] = now
@@ -82,14 +75,7 @@ class MaintenanceMiddleware(BaseMiddleware):
     ) -> Any:
         if MaintenanceMiddleware.maintenance_mode and event.text and event.text.startswith('/'):
             logger.info(f"Maintenance mode active. Blocking command {event.text} from {event.from_user.id}")
-            await event.reply("⚙️ The bot is currently under maintenance. Please try again later.")
+            await event.reply(apply_branding("⚙️ The bot is currently under maintenance. Please try again later."), parse_mode="HTML")
             return  # Cancel handler
 
         return await handler(event, data)
-
-
-# Usage example (aiogram 3.x):
-# from middlewares import RateLimitMiddleware, ExceptionMiddleware, MaintenanceMiddleware
-# dp.message.middleware(RateLimitMiddleware(limit=1.0))
-# dp.message.middleware(ExceptionMiddleware())
-# dp.message.middleware(MaintenanceMiddleware())

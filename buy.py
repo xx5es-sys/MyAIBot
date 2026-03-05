@@ -2,6 +2,7 @@ import re
 from aiogram import types, Router, F
 from aiogram.types import LabeledPrice
 import premium_util
+from branding import apply_branding
 
 buy_router = Router()
 
@@ -19,12 +20,12 @@ async def buy_command(message: types.Message):
     amount = extract_amount(message.text)
 
     if amount <= 0:
-        await message.answer(
-            "💳 <b>Buy Stars</b>\n\n"
+        await message.reply(
+            apply_branding("💳 <b>Buy Stars</b>\n\n"
             "Send the number of Stars you want to buy.\n"
             "Example:\n"
             "<code>/buy 20</code>\n"
-            "or simply send a number after this message ⭐",
+            "or simply send a number after this message ⭐"),
             parse_mode="HTML"
         )
         return
@@ -42,8 +43,8 @@ async def send_invoice_stars(message: types.Message, stars: int):
 
     await message.bot.send_invoice(
         chat_id=message.chat.id,
-        title=f"Buy {stars} Stars",
-        description=f"You are purchasing {stars} ⭐ Stars.",
+        title=apply_branding(f"Buy {stars} Stars"),
+        description=apply_branding(f"You are purchasing {stars} ⭐ Stars for 𝖨𝖦𝖭𝖨𝖲𝖷 Bot."),
         payload=f"stars:{stars}",
         provider_token="",
         currency="XTR",
