@@ -291,7 +291,7 @@ async def process_credits_user_id(message: types.Message, state: FSMContext):
 
 @admin_router.callback_query(F.data == "set_unlimited")
 async def process_set_unlimited(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text(apply_branding("Enter the user ID to set/unset unlimited access:"), parse_mode="HTML")
+    await call.message.edit_text(apply_branding("Enter the user ID to toggle unlimited access:"), parse_mode="HTML")
     await call.answer()
     await state.set_state(AdminActions.waiting_for_unlimited_user_id)
 
