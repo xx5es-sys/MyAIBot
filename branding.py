@@ -19,7 +19,13 @@ def apply_branding(text: str) -> str:
     for pattern in patterns:
         text = re.sub(pattern, BRAND_ANCHOR, text, flags=re.IGNORECASE)
     
-    # Replace dots
-    text = text.replace("•", DOT_ANCHOR)
+    # Replace standalone dots (•) that are NOT already inside <a> tags
+    # Split text by <a ...>...</a> segments to avoid replacing inside them
+    parts = re.split(r'(<a\s[^>]*>.*?</a>)', text)
+    for i, part in enumerate(parts):
+        # Only replace in non-anchor parts
+        if not part.startswith('<a '):
+            parts[i] = part.replace("•", DOT_ANCHOR)
+    text = ''.join(parts)
     
     return text

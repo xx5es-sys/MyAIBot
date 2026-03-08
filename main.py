@@ -65,7 +65,7 @@ from admin import (
     view_premium_users,
     admin_router
 )
-from mass import register_handlers as register_mass_handlers
+from mass import mass_router
 from premium_util import check_subscriptions, add_credits, is_premium
 
 
@@ -359,7 +359,7 @@ router.callback_query.register(start_callbacks, F.data.startswith("tools:"))
 dp.include_router(admin_router)
 
 # تسجيل Mass Handlers
-register_mass_handlers(dp)
+dp.include_router(mass_router)
 
 # =================================================================
 # تشغيل البوت

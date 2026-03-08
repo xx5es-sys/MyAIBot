@@ -472,9 +472,8 @@ async def handle_mass_callbacks(callback: CallbackQuery, state: FSMContext):
         )
         await state.set_state(MassCheckState.waiting_for_gate_type)
 
-    await callback.answer()
-
-
-def register_handlers(router: Router):
-    router.include_router(mass_router)
-
+    # Answer callback only if not already answered in a branch above
+    try:
+        await callback.answer()
+    except Exception:
+        pass

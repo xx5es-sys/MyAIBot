@@ -227,10 +227,10 @@ async def handle_mock_command(
     if len(parts) < 2:
         await message.reply(
             apply_branding(f"❌ يرجى إدخال بيانات البطاقة\n\n"
-            f"📝 **الاستخدام:**\n"
-            f"`{command} CC|MM|YYYY|CVV`\n\n"
-            f"✅ **مثال:**\n"
-            f"`{command} 4111111111111111|12|2025|123`"),
+            f"📝 <b>الاستخدام:</b>\n"
+            f"<code>{command} CC|MM|YYYY|CVV</code>\n\n"
+            f"✅ <b>مثال:</b>\n"
+            f"<code>{command} 4111111111111111|12|2025|123</code>"),
             parse_mode="HTML"
         )
         return
@@ -242,10 +242,10 @@ async def handle_mock_command(
     if len(card_data) != 4:
         await message.reply(
             apply_branding(f"❌ صيغة غير صحيحة\n\n"
-            f"📝 **الصيغة المطلوبة:**\n"
-            f"`CC|MM|YYYY|CVV`\n\n"
-            f"✅ **مثال:**\n"
-            f"`{command} 4111111111111111|12|2025|123`"),
+            f"📝 <b>الصيغة المطلوبة:</b>\n"
+            f"<code>CC|MM|YYYY|CVV</code>\n\n"
+            f"✅ <b>مثال:</b>\n"
+            f"<code>{command} 4111111111111111|12|2025|123</code>"),
             parse_mode="HTML"
         )
         return
