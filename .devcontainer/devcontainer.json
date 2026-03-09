@@ -17,6 +17,6 @@
         }
     },
     // يضمن هذا الأمر تثبيت المكتبات تلقائياً عند فتح البيئة لأول مرة
-    "postCreateCommand": "pip3 install -r requirements.txt",
+    "postCreateCommand": "pip3 install --upgrade pip && pip3 install -r requirements.txt",
     "remoteUser": "vscode"
 }
