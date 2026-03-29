@@ -1,9 +1,10 @@
-
-# Mock file created to prevent ImportErrors
+import os
 import asyncio
 
-API_TOKEN = "YOUR_BOT_TOKEN_HERE"
-Admin = 0
+# Mock file created to prevent ImportErrors
+# للحصول على التوكن، قم بإضافته في GitHub Codespaces كمتغير بيئة باسم BOT_TOKEN
+API_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+Admin = int(os.getenv("ADMIN_ID", "0"))
 
 def apply_branding(text): return text
 async def handle_start(m): await m.reply("Bot Started (Mock)")
