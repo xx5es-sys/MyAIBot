@@ -59,9 +59,9 @@ from gates.Charge.ST_Charge.ST_3 import process_ST_3_charge
 from gates.Charge.ST_Charge.ST_single_charge import process_ST_single_charge
 
 # ── LOOKUP: Global 3DS ───────────────────────────────────────────
-from gates.LookUp.Global_3DS.GP_1_3ds import process_GP_1_3ds
-from gates.LookUp.Global_3DS.GP_2_3ds import process_GP_2_3ds
-from gates.LookUp.Global_3DS.GP_single_3ds import process_GP_single_3ds
+from gates.LookUp.Global_3DS.GP_1_3ds import process_GP_1 as process_GP_1_3ds
+from gates.LookUp.Global_3DS.GP_2_3ds import process_GP_2 as process_GP_2_3ds
+from gates.LookUp.Global_3DS.GP_single_3ds import process_GP_single as process_GP_single_3ds
 
 # ── LOOKUP: Global Passed ────────────────────────────────────────
 from gates.LookUp.Global_Passed.GP_1_passed import process_GP_1_passed
