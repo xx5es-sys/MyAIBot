@@ -1,5 +1,5 @@
 {
-    "name": "MyAIBot - Automated Dev Environment",
+    "name": "IGNISX Bot - Dev Environment",
     "build": {
         "dockerfile": "Dockerfile",
         "context": ".."
@@ -8,16 +8,17 @@
         "vscode": {
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python3",
-                "python.analysis.extraPaths": ["/workspace"]
+                "python.analysis.extraPaths": ["/workspaces/MyAIBot"]
             },
             "extensions": [
                 "ms-python.python",
-                "ms-python.vscode-pylance"
+                "ms-python.vscode-pylance",
+                "ms-python.debugpy"
             ]
         }
     },
-    // يضمن هذا الأمر تثبيت المكتبات تلقائياً عند فتح البيئة لأول مرة أو إعادة تشغيلها
-    // نستخدم --upgrade لضمان تحديث المكتبات إذا تغير ملف requirements.txt
-    "postCreateCommand": "pip3 install --upgrade pip && pip3 install -r requirements.txt",
-    "remoteUser": "vscode"
+    "postCreateCommand": "pip3 install --upgrade pip && pip3 install --no-cache-dir -r requirements.txt",
+    "postStartCommand": "pip3 install --quiet -r requirements.txt",
+    "remoteUser": "vscode",
+    "workspaceFolder": "/workspaces/MyAIBot"
 }
